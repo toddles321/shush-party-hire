@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking Confirmed | Shush Party Hire</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,900;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#04040a;--card:#0a0a15;
+  --cyan:#00eeff;--lavender:#b57bff;--magenta:#ff1f6e;
+  --white:#eeeaff;--muted:rgba(238,234,255,0.55);--dim:rgba(238,234,255,0.28);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{
+  background:var(--black);color:var(--white);
+  font-family:'Syne',sans-serif;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+.bg{
+  position:fixed;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%,rgba(0,238,255,.06) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 90%,rgba(181,123,255,.05) 0%,transparent 60%);
+}
+.card{
+  position:relative;z-index:1;
+  background:var(--card);
+  border:1px solid rgba(0,238,255,.15);
+  border-radius:2rem;padding:3.5rem 3rem;
+  max-width:600px;width:100%;text-align:center;
+  animation:fadeUp .8s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.check{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),var(--lavender));
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;font-size:1.6rem;
+  box-shadow:0 0 40px rgba(0,238,255,.25);
+  animation:pop .6s .3s ease both;
+}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.logo{font-weight:800;font-size:1.1rem;margin-bottom:2rem;letter-spacing:-.02em}
+.logo em{color:var(--cyan);font-style:normal}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,3rem);font-weight:900;
+  line-height:1.05;margin-bottom:1rem;
+  background:linear-gradient(135deg,var(--cyan),var(--lavender));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sub{font-size:.9rem;color:var(--muted);line-height:1.9;margin-bottom:2rem}
+
+/* Booking summary */
+.summary{
+  background:rgba(0,238,255,.03);
+  border:1px solid rgba(0,238,255,.08);
+  border-radius:1.25rem;padding:1.6rem;
+  margin-bottom:2rem;text-align:left;
+  display:none;
+}
+.summary h3{
+  font-size:.6rem;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(0,238,255,.45);margin-bottom:1.2rem;
+}
+.s-row{
+  display:flex;justify-content:space-between;
+  font-size:.82rem;padding:.4rem 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.s-row:last-child{border-bottom:none}
+.s-label{color:var(--dim)}.s-val{color:var(--white);font-weight:600}
+
+/* Deposit note */
+.deposit-note{
+  background:rgba(0,230,80,.05);
+  border:1px solid rgba(0,230,80,.15);
+  border-radius:1rem;padding:1.1rem 1.4rem;
+  margin-bottom:2rem;font-size:.82rem;
+  color:rgba(200,255,220,.7);line-height:1.8;
+}
+.deposit-note strong{color:#00e650}
+
+/* What next */
+.what-next{text-align:left;margin-bottom:2rem}
+.what-next h3{
+  font-size:.6rem;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:1.2rem;
+}
+.next-item{display:flex;gap:1rem;align-items:flex-start;margin-bottom:.9rem}
+.next-n{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--cyan),var(--lavender));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:800;color:var(--black);margin-top:.1rem;
+}
+.next-t{font-size:.82rem;color:var(--muted);line-height:1.7}
+.next-t strong{color:var(--white)}
+
+/* Buttons */
+.btns{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:2rem}
+.btn-p{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:.9rem 2rem;border-radius:100px;
+  background:linear-gradient(135deg,var(--cyan),var(--lavender));
+  color:var(--black);font-family:'Syne',sans-serif;font-weight:800;
+  font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  text-decoration:none;transition:transform .3s,box-shadow .3s;
+  box-shadow:0 0 20px rgba(0,238,255,.2);
+}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 35px rgba(0,238,255,.4)}
+.btn-wa{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  padding:.9rem 2rem;border-radius:100px;
+  background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.2);
+  color:#25d366;font-family:'Syne',sans-serif;font-weight:700;
+  font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;transition:all .3s;
+}
+.btn-wa:hover{background:rgba(37,211,102,.15)}
+.footer-note{font-size:.68rem;color:rgba(238,234,255,.18);line-height:1.7}
+.footer-note a{color:rgba(0,238,255,.3);text-decoration:none}
+.footer-note a:hover{color:var(--cyan)}
+
+@media(max-width:480px){
+  .card{padding:2.5rem 1.5rem}
+  .btns{flex-direction:column}
+  .btn-p,.btn-wa{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+
+<div class="card" role="main">
+  <div class="logo">Shush<em>.</em></div>
+  <div class="check" aria-hidden="true">✓</div>
+  <h1>You Are Booked In.</h1>
+  <p class="sub">Your $150 deposit has been received and your date is locked in. Todd will be in touch within a couple of hours to confirm all the details.</p>
+
+  <div class="summary" id="summary" aria-label="Booking summary">
+    <h3>Your Booking Details</h3>
+    <div id="summaryRows"></div>
+  </div>
+
+  <div class="deposit-note" role="note">
+    <strong>Deposit received: $150 AUD ✓</strong><br>
+    Your remaining balance will be confirmed when Todd calls. It is due before your event date.
+  </div>
+
+  <div class="what-next" aria-label="What happens next">
+    <h3>What Happens Next</h3>
+    <div class="next-item">
+      <div class="next-n" aria-hidden="true">1</div>
+      <div class="next-t"><strong>Todd calls you</strong> — usually within a couple of hours, always within 24 hours. He will confirm your booking and answer any questions.</div>
+    </div>
+    <div class="next-item">
+      <div class="next-n" aria-hidden="true">2</div>
+      <div class="next-t"><strong>Setup guide sent</strong> — a step-by-step video and written guide arrives before your event so you feel completely confident.</div>
+    </div>
+    <div class="next-item">
+      <div class="next-n" aria-hidden="true">3</div>
+      <div class="next-t"><strong>Equipment ready for you</strong> — collect free from Point Lonsdale or receive delivery anywhere in the zone for $40. Every headset pre-charged and tested.</div>
+    </div>
+    <div class="next-item">
+      <div class="next-n" aria-hidden="true">4</div>
+      <div class="next-t"><strong>Dance.</strong> Todd is available on the night on 0400 050 176 if you need anything.</div>
+    </div>
+  </div>
+
+  <div class="btns">
+    <a href="/" class="btn-p">Back to Home</a>
+    <a href="https://wa.me/61400050176" class="btn-wa" target="_blank" rel="noopener noreferrer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Message Todd
+    </a>
+  </div>
+
+  <p class="footer-note">
+    Questions? Call <a href="tel:0400050176">0400 050 176</a> or email <a href="mailto:booking@shushpartyhire.com.au">booking@shushpartyhire.com.au</a><br>
+    Shush Party Hire · Point Lonsdale VIC 3225 · ABN 81 343 920 567
+  </p>
+</div>
+
+<script>
+// Show booking summary from sessionStorage
+try {
+  var pkg = sessionStorage.getItem('shush_pkg');
+  if (pkg) {
+    var data = JSON.parse(pkg);
+    var summary = document.getElementById('summary');
+    var rows = document.getElementById('summaryRows');
+    var durLabels = {'1':'1 Night','2':'2–3 Nights','7':'1 Week'};
+    var ipodLabels = {'0':'No iPods','19':'1 iPod','35':'2 iPods','49':'3 iPods'};
+    var delLabel = data.delivery === '40' ? 'Delivery ($40)' : 'Free Pickup';
+    var items = [
+      ['Event Date', data.date],
+      ['Headsets', data.qty],
+      ['Duration', durLabels[data.duration] || data.duration],
+      ['Delivery', delLabel],
+      ['Music iPods', ipodLabels[data.ipod] || 'None'],
+      ['Package Total', '$' + parseInt(data.total).toLocaleString('en-AU')],
+      ['Deposit Paid', '$150 AUD ✓'],
+    ];
+    rows.innerHTML = items.filter(function(i){return i[1];}).map(function(i){
+      return '<div class="s-row"><span class="s-label">'+i[0]+'</span><span class="s-val">'+i[1]+'</span></div>';
+    }).join('');
+    summary.style.display = 'block';
+    sessionStorage.removeItem('shush_pkg');
+  }
+} catch(e) {}
+</script>
+</body>
+</html>
