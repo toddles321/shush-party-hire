@@ -82,7 +82,6 @@ export async function onRequestPost(context) {
             'Delivery': delivery === 40 ? 'Delivery $40' : 'Free Pickup',
             'iPod Option': ipodLabels[ipod] || 'None',
             'Package Price': total,
-            'Deposit Required': deposit,
             'Deposit Paid': false,
             'Status': 'Deposit Pending',
           },
