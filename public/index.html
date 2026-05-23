@@ -1970,5 +1970,29 @@ function closeMob() {
           ]
     }
   </script>
+<script>
+/* Shush — Conversion Events: GA4 + Meta Pixel */
+/* ACTION NEEDED: Replace G-XXXXXXXXXX with your real GA4 Measurement ID from analytics.google.com */
+(function(){
+  var calcFired=false;
+  ['calcDate','calcQty','calcDuration','calcDelivery'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    el.addEventListener('change',function(){
+      if(calcFired)return;
+      calcFired=true;
+      if(typeof gtag==='function')gtag('event','begin_checkout',{event_category:'calculator',event_label:'pricing_calculator'});
+      if(typeof fbq==='function')fbq('track','InitiateCheckout');
+    });
+  });
+  var btn=document.getElementById('secureBtn');
+  if(btn)btn.addEventListener('click',function(){
+    var price=parseFloat((document.getElementById('totalVal')||{}).textContent.replace(/[^0-9.]/g,'')||'0')||0;
+    var qty=(document.getElementById('calcQty')||{}).value||'';
+    if(typeof gtag==='function')gtag('event','add_to_cart',{currency:'AUD',value:price,items:[{item_name:'Silent Disco Hire - '+qty+' headsets'}]});
+    if(typeof fbq==='function')fbq('track','AddToCart',{currency:'AUD',value:price});
+  });
+})();
+</script>
 </body>
 </html>
