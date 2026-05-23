@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#04040a">
 <title>Silent Disco Hire Geelong & Bellarine Peninsula | Shush Party Hire</title>
-<meta name="description" content="Geelong & Bellarine Peninsula's only local silent disco hire. Up to 400 headsets, 3 music channels, flat $40 delivery. Birthdays, hens nights, weddings, aged care & more. Free pickup Point Lonsdale.">
+<meta name="description" content="Geelong & Bellarine's only local silent disco hire. 400 headsets, 3 channels, $40 delivery. Birthdays, weddings & hens nights. Free pickup Point Lonsdale.">
 <link rel="canonical" href="https://shushpartyhire.com.au/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://shushpartyhire.com.au/">
@@ -31,7 +31,13 @@
   "geo":{"@type":"GeoCoordinates","latitude":-38.2833,"longitude":144.6000},
   "areaServed":["Geelong","Ocean Grove","Barwon Heads","Torquay","Point Lonsdale","Queenscliff","Portarlington","Drysdale","Leopold","Lara","Armstrong Creek","Highton","Belmont","Newtown","Waurn Ponds"],
   "priceRange":"$$",
-  "sameAs":["https://www.instagram.com/shushpartyhire"]
+  "sameAs":["https://www.instagram.com/shushpartyhire/"],
+  "aggregateRating":{"@type":"AggregateRating","ratingValue":"5","bestRating":"5","reviewCount":"3"},
+  "review":[
+    {"@type":"Review","reviewRating":{"@type":"Rating","ratingValue":"5"},"author":{"@type":"Person","name":"Sarah M."},"reviewBody":"We hired Shush for our hens night in Barwon Heads and it was the highlight of the whole trip. Everyone kept swapping channels and laughing. Todd was amazing — replied instantly and sorted everything."},
+    {"@type":"Review","reviewRating":{"@type":"Rating","ratingValue":"5"},"author":{"@type":"Person","name":"Julie R."},"reviewBody":"Used Shush for our daughter's 18th at our holiday house in Point Lonsdale. Neighbours never heard a thing and the kids absolutely loved it. So easy to set up — took about five minutes. Will book again."},
+    {"@type":"Review","reviewRating":{"@type":"Rating","ratingValue":"5"},"author":{"@type":"Person","name":"Leanne T."},"reviewBody":"We run events at Ryman Retirement Village and Todd's silent disco has been a massive hit with our residents. Three channels means everyone finds music they love. Booking process was seamless."}
+  ]
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -892,6 +898,9 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:3.5rem
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
   .marquee-track{animation:none!important;}
 }
+.skip-link{position:absolute;top:-100%;left:0;padding:.5rem 1rem;background:var(--cyan);color:#04040a;font-weight:700;font-size:.875rem;z-index:9999;text-decoration:none;border-radius:0 0 6px 0;}
+.skip-link:focus{top:0;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
 </style>
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
@@ -928,6 +937,7 @@ src="https://www.facebook.com/tr?id=XXXXXXXXXXXXXXXX&ev=PageView&noscript=1"
 
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 
 <!-- CUSTOM CURSOR -->
 <div class="cur" id="cur" aria-hidden="true"></div>
@@ -979,6 +989,7 @@ src="https://www.facebook.com/tr?id=XXXXXXXXXXXXXXXX&ev=PageView&noscript=1"
   </button>
 </nav>
 
+<main id="main-content">
 <!-- HERO -->
 <section class="hero" aria-label="Shush Party Hire — Silent Disco Hire Geelong and Bellarine Peninsula">
   <div class="hero-img" id="heroBg" aria-hidden="true"></div>
@@ -1515,6 +1526,7 @@ src="https://www.facebook.com/tr?id=XXXXXXXXXXXXXXXX&ev=PageView&noscript=1"
     </div>
   </div>
 </section>
+</main>
 
 <!-- FOOTER -->
 <footer role="contentinfo">
