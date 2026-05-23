@@ -12,7 +12,7 @@
 <meta property="og:description" content="Geelong & Bellarine's only local silent disco hire. Three channels, zero noise complaints, flat $40 delivery. From $99.">
 <meta property="og:site_name" content="Shush Party Hire">
 <meta property="og:locale" content="en_AU">
-<meta property="og:image" content="https://shushpartyhire.com.au/images/hero-png.png">
+<meta property="og:image" content="https://shushpartyhire.com.u/images/hero-png.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:image" content="https://shushpartyhire.com.au/images/hero-png.png">
@@ -1933,5 +1933,42 @@ function closeMob() {
   document.body.style.overflow = '';
 }
 </script>
+
+  <!-- Sticky Mobile CTA -->
+  <div id="sticky-cta" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#000;padding:16px 20px;z-index:9999;text-align:center;box-shadow:0 -2px 12px rgba(0,0,0,0.3);">
+      <a href="#pricing" style="color:#fff;font-weight:700;font-size:15px;text-decoration:none;letter-spacing:0.5px;" onclick="document.getElementById('sticky-cta').style.display='none'">📅 CHECK AVAILABILITY — BOOK NOW</a>a>
+  </div>div>
+  <script>
+      (function(){
+            var el = document.getElementById('sticky-cta');
+            var dismissed = false;
+            window.addEventListener('scroll', function() {
+                    if (dismissed) return;
+                    if (window.scrollY > window.innerHeight * 0.4) {
+                              el.style.display = 'block';
+                    }
+            });
+            el.querySelector('a').addEventListener('click', function() {
+                    dismissed = true;
+                    el.style.display = 'none';
+            });
+      })();
+  </script>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"How does a silent disco work?","acceptedAnswer":{"@type":"Answer","text":"Transmitters broadcast music wirelessly across three channels. Guests pick up a headset, choose their channel using the button on the ear cup, and music plays directly to them. From outside the headsets, the room is nearly silent."}},
+        {"@type":"Question","name":"How much does silent disco hire cost in Geelong?","acceptedAnswer":{"@type":"Answer","text":"Silent disco hire in Geelong starts from $99 for 10 headsets for one night, up to $1,899 for 400 headsets. A $150 deposit secures your date. Flat $40 delivery anywhere in the Geelong and Bellarine region."}},
+        {"@type":"Question","name":"Do you deliver to Barwon Heads, Ocean Grove and the Bellarine Peninsula?","acceptedAnswer":{"@type":"Answer","text":"Yes — flat $40 delivery covers the entire Bellarine Peninsula including Ocean Grove, Barwon Heads, Queenscliff, Point Lonsdale, Portarlington, St Leonards and Drysdale, plus the Surf Coast including Torquay and Anglesea."}},
+        {"@type":"Question","name":"What is included in every silent disco hire?","acceptedAnswer":{"@type":"Answer","text":"Every hire includes: headsets pre-charged and tested, three channel transmitters, all cables and adapters (Lightning and USB-C), step-by-step setup guide, transport tubs, and direct support from Todd throughout your event."}},
+        {"@type":"Question","name":"What is your cancellation policy?","acceptedAnswer":{"@type":"Answer","text":"Cancellations seven or more days before your event receive a full refund of the deposit. Cancellations within seven days forfeit the deposit."}},
+        {"@type":"Question","name":"Do you have public liability insurance?","acceptedAnswer":{"@type":"Answer","text":"Yes. Shush Party Hire holds current public liability insurance. A certificate of currency is available on request."}}
+          ]
+    }
+  </script>
 </body>
 </html>
