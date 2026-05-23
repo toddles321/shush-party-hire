@@ -134,6 +134,38 @@ h1{
   .btn-p,.btn-wa{width:100%}
 }
 </style>
+
+  <!-- Google tag (gtag.js) — ACTION NEEDED: replace G-XXXXXXXXXX with your real GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+    // Fire purchase event only when arriving from Stripe (real booking)
+    if (window.location.search.includes('session_id')) {
+      const sessionId = new URLSearchParams(window.location.search).get('session_id');
+      gtag('event', 'purchase', {
+        currency: 'AUD',
+        value: 150,
+        transaction_id: sessionId,
+        items: [{ item_name: 'Silent Disco Deposit', price: 150, quantity: 1 }]
+      });
+    }
+  </script>
+  <!-- Meta Pixel — ACTION NEEDED: replace XXXXXXXXXXXXXXXX with your real Pixel ID -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'XXXXXXXXXXXXXXXX');
+    fbq('track', 'PageView');
+    if (window.location.search.includes('session_id')) {
+      fbq('track', 'Purchase', { currency: 'AUD', value: 150 });
+    }
+  </script>
 </head>
 <body>
 <div class="bg" aria-hidden="true"></div>
