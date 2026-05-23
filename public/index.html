@@ -90,7 +90,7 @@ nav.scrolled{
 .nav-logo{
   font-weight:800;font-size:1.4rem;color:var(--white);
   letter-spacing:-.03em;flex-shrink:0;
-  text-decoration:none;
+  text-decoration:none;min-height:44px;display:inline-flex;align-items:center;
 }
 .nav-logo em{color:var(--cyan);font-style:normal;text-shadow:0 0 18px rgba(0,238,255,.5)}
 .nav-centre{display:flex;align-items:center;gap:2rem;list-style:none}
@@ -771,6 +771,7 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:3.5rem
 .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
 .footer-col a{font-size:.78rem;color:rgba(238,234,255,.3);transition:color .2s;text-decoration:none}
 .footer-col a:hover{color:var(--cyan)}
+@media(max-width:768px){.footer-col a{display:block;padding:15px 0;}}
 .footer-bottom{
   max-width:1240px;margin:1.8rem auto 0;
   display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
