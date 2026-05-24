@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#04040a">
+<title>Page Not Found | Shush Party Hire</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#04040a;
+  --deep:#07070f;
+  --cyan:#00eeff;
+  --magenta:#ff1f6e;
+  --white:#eeeaff;
+  --muted:rgba(238,234,255,0.55);
+  --border:rgba(255,255,255,0.06);
+  --r:0.75rem;
+}
+html,body{height:100%;background:var(--black);color:var(--white);font-family:'Syne',sans-serif;}
+body{display:flex;flex-direction:column;min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2rem;border-bottom:1px solid var(--border);}
+.nav-logo{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;}
+.nav-logo em{color:var(--cyan);font-style:normal;}
+.nav-link{font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);transition:color .2s;}
+.nav-link:hover{color:var(--white);}
+
+/* MAIN */
+.page{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:4rem 1.5rem;}
+.inner{max-width:520px;}
+.num{font-size:clamp(6rem,20vw,10rem);font-weight:800;line-height:1;color:var(--cyan);text-shadow:0 0 60px rgba(0,238,255,0.25);}
+.tagline{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--magenta);margin:.5rem 0 1.5rem;}
+h1{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;line-height:1.2;margin-bottom:.75rem;}
+.sub{color:var(--muted);font-size:1rem;line-height:1.6;margin-bottom:2.5rem;}
+.btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-primary{display:inline-block;background:var(--cyan);color:#000;font-weight:800;font-size:.95rem;letter-spacing:.04em;padding:.9rem 2rem;border-radius:var(--r);transition:opacity .2s,transform .2s;}
+.btn-primary:hover{opacity:.88;transform:translateY(-2px);}
+.btn-ghost{display:inline-block;border:1px solid rgba(255,255,255,0.15);color:var(--white);font-weight:700;font-size:.95rem;letter-spacing:.04em;padding:.9rem 2rem;border-radius:var(--r);transition:opacity .2s,transform .2s;}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.35);transform:translateY(-2px);}
+
+/* FOOTER */
+footer{text-align:center;padding:1.5rem;border-top:1px solid var(--border);color:var(--muted);font-size:.8rem;}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Site navigation">
+  <a href="/" class="nav-logo">Shush<em>.</em></a>
+  <a href="/#contact" class="nav-link">Contact</a>
+</nav>
+
+<main class="page">
+  <div class="inner">
+    <div class="num" aria-hidden="true">404</div>
+    <div class="tagline">Wrong frequency</div>
+    <h1>This page doesn't exist.</h1>
+    <p class="sub">The party is somewhere else. Head back home or check availability for your event.</p>
+    <div class="btns">
+      <a href="/" class="btn-primary">Go Home</a>
+      <a href="/#pricing" class="btn-ghost">Check Availability</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Shush Party Hire &mdash; Geelong &amp; Bellarine Peninsula</p>
+</footer>
+
+</body>
+</html>
