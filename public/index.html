@@ -901,6 +901,23 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:3.5rem
 .skip-link{position:absolute;top:-100%;left:0;padding:.5rem 1rem;background:var(--cyan);color:#04040a;font-weight:700;font-size:.875rem;z-index:9999;text-decoration:none;border-radius:0 0 6px 0;}
 .skip-link:focus{top:0;}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+
+/* TRUST STRIP */
+.trust-strip{background:var(--deep);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.5rem;}
+.trust-strip-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;}
+.trust-item{display:flex;flex-direction:column;align-items:center;padding:.6rem 2rem;text-align:center;}
+.trust-num{font-size:1.45rem;font-weight:800;color:var(--cyan);line-height:1;}
+.trust-lbl{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.25rem;}
+.trust-div{width:1px;height:2.5rem;background:var(--border-light);flex-shrink:0;}
+@media(max-width:600px){.trust-item{padding:.5rem 1.1rem;}.trust-num{font-size:1.2rem;}.trust-div{display:none;}}
+/* CLOSING CTA */
+.closing-cta{background:linear-gradient(135deg,var(--deep) 0%,var(--mid) 100%);border-top:1px solid var(--border);padding:5rem 1.5rem;text-align:center;}
+.closing-cta-inner{max-width:620px;margin:0 auto;}
+.closing-cta-heading{font-size:clamp(1.75rem,4vw,2.75rem);font-weight:800;line-height:1.15;margin:0 0 1rem;}
+.closing-cta-sub{color:var(--muted);font-size:1.05rem;margin:0 0 2.25rem;line-height:1.6;}
+.btn-cta-final{display:inline-block;background:var(--cyan);color:#000;font-weight:800;font-size:1rem;letter-spacing:.04em;padding:1rem 2.5rem;border-radius:var(--r);transition:opacity .2s,transform .2s;}
+.btn-cta-final:hover{opacity:.88;transform:translateY(-2px);}
+@media(max-width:600px){.closing-cta{padding:3.5rem 1.25rem;}}
 </style>
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
@@ -1025,6 +1042,19 @@ src="https://www.facebook.com/tr?id=XXXXXXXXXXXXXXXX&ev=PageView&noscript=1"
   <div class="marquee-track">
     <span class="mi">BIRTHDAYS</span><span class="md">✦</span><span class="mi">HENS NIGHTS</span><span class="md">✦</span><span class="mi">WEDDINGS</span><span class="md">✦</span><span class="mi">AGED CARE</span><span class="md">✦</span><span class="mi">WINERY EVENTS</span><span class="md">✦</span><span class="mi">BEACH PARTIES</span><span class="md">✦</span><span class="mi">SCHOOL EVENTS</span><span class="md">✦</span><span class="mi">CORPORATE EVENTS</span><span class="md">✦</span><span class="mi">HOLIDAY HOUSES</span><span class="md">✦</span>
     <span class="mi">BIRTHDAYS</span><span class="md">✦</span><span class="mi">HENS NIGHTS</span><span class="md">✦</span><span class="mi">WEDDINGS</span><span class="md">✦</span><span class="mi">AGED CARE</span><span class="md">✦</span><span class="mi">WINERY EVENTS</span><span class="md">✦</span><span class="mi">BEACH PARTIES</span><span class="md">✦</span><span class="mi">SCHOOL EVENTS</span><span class="md">✦</span><span class="mi">CORPORATE EVENTS</span><span class="md">✦</span><span class="mi">HOLIDAY HOUSES</span><span class="md">✦</span>
+  </div>
+</div>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip" role="region" aria-label="At a glance">
+  <div class="trust-strip-inner">
+    <div class="trust-item"><span class="trust-num">400</span><span class="trust-lbl">Headsets</span></div>
+    <div class="trust-div" aria-hidden="true"></div>
+    <div class="trust-item"><span class="trust-num">3</span><span class="trust-lbl">Channels</span></div>
+    <div class="trust-div" aria-hidden="true"></div>
+    <div class="trust-item"><span class="trust-num">Local</span><span class="trust-lbl">Geelong &amp; Bellarine</span></div>
+    <div class="trust-div" aria-hidden="true"></div>
+    <div class="trust-item"><span class="trust-num">Same Day</span><span class="trust-lbl">Response</span></div>
   </div>
 </div>
 
@@ -1527,6 +1557,15 @@ src="https://www.facebook.com/tr?id=XXXXXXXXXXXXXXXX&ev=PageView&noscript=1"
   </div>
 </section>
 </main>
+
+<!-- CLOSING CTA -->
+<section class="closing-cta" aria-labelledby="cta-heading">
+  <div class="closing-cta-inner">
+    <h2 class="closing-cta-heading" id="cta-heading">Ready to make your party unforgettable?</h2>
+    <p class="closing-cta-sub">Geelong's only local silent disco hire. Dates fill fast — lock yours in now.</p>
+    <a href="#pricing" class="btn-cta-final">Check Availability</a>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer role="contentinfo">
