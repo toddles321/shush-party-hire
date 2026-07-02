@@ -377,43 +377,6 @@ nav.scrolled{
 .why-img-wrap img{width:100%;height:480px;object-fit:cover;transition:transform 1.2s var(--ease)}
 .why-img-wrap:hover img{transform:scale(1.04)}
 
-/* ════════════════════════════════════════════════════════════
-   AUDIO DEMO — HEAR THE DIFFERENCE
-   ════════════════════════════════════════════════════════════ */
-.demo-section{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
-.demo-section::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(50% 60% at 50% 0%,rgba(167,139,250,.06),transparent 70%);
-}
-.demo-card{
-  position:relative;max-width:760px;margin:3rem auto 0;
-  background:var(--glass);border:1px solid var(--line-2);border-radius:var(--r-l);
-  padding:clamp(1.8rem,4vw,3rem);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  box-shadow:var(--shadow-card);text-align:center;
-}
-.demo-toggle{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
-.demo-btn{
-  display:inline-flex;align-items:center;gap:.6rem;
-  padding:.95rem 1.9rem;border-radius:var(--r-pill);
-  border:1px solid var(--line-2);background:transparent;
-  color:var(--ink-2);font-weight:700;font-size:.95rem;
-  transition:all .35s var(--ease);
-}
-.demo-btn:hover{border-color:rgba(55,230,255,.45);color:var(--ink)}
-.demo-btn.active{background:var(--grad);border-color:transparent;color:#04121a;box-shadow:0 8px 28px -8px rgba(55,230,255,.5)}
-.demo-viz{
-  display:flex;align-items:flex-end;justify-content:center;gap:5px;
-  height:72px;margin:2.2rem auto 1.4rem;max-width:420px;
-}
-.demo-viz span{
-  flex:1;max-width:14px;border-radius:4px 4px 2px 2px;height:8%;
-  background:linear-gradient(180deg,var(--cyan),var(--violet));
-  box-shadow:0 0 12px rgba(55,230,255,.25);
-  transition:height .12s ease;
-}
-.demo-state{font-size:var(--t-small);color:var(--ink-3);min-height:1.4em;transition:color .3s}
-.demo-state strong{color:var(--ink-2)}
-.demo-hint{margin-top:1.6rem;font-size:var(--t-micro);font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
 
 /* ════════════════════════════════════════════════════════════
    HOW IT WORKS
@@ -872,8 +835,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   .sticky-bar{display:flex}
   .wa-float{bottom:calc(5.6rem + env(safe-area-inset-bottom));right:1rem;width:48px;height:48px}
   .todd-visual img{height:320px}
-  .demo-toggle{flex-direction:column}
-  .demo-btn{width:100%;justify-content:center}
   .footer-col a{padding:.6rem 0}
 }
 @media(max-width:480px){
@@ -886,11 +847,80 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   .guest-helper{flex-direction:column;align-items:stretch;text-align:center}
   .guest-helper input{width:100%}
 }
+
+/* ════════════════════════════════════════════════════════════
+   CINEMA — 3D hero, scroll storytelling, premium motion
+   ════════════════════════════════════════════════════════════ */
+/* Scroll progress bar */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:2px;width:100%;z-index:600;
+  background:var(--grad);transform-origin:0 50%;transform:scaleX(0);
+  pointer-events:none;
+}
+/* Hero split layout with 3D stage (desktop) */
+.hero-grid{display:block}
+.hero-stage{display:none}
+@media(min-width:1100px){
+  .hero{text-align:left}
+  .hero-content{max-width:1200px}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:2rem;align-items:center}
+  .hero-copy .hero-btns,.hero-copy .hero-trust{justify-content:flex-start}
+  .hero-copy h1 .serif{margin-top:.9rem}
+  .hero-stage{
+    display:block;position:relative;height:520px;
+  }
+  .hero-stage canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+  .hero-stage::after{
+    content:'';position:absolute;left:50%;bottom:8%;transform:translateX(-50%);
+    width:60%;height:24px;border-radius:50%;
+    background:radial-gradient(50% 50% at 50% 50%,rgba(55,230,255,.18),transparent 70%);
+    filter:blur(6px);pointer-events:none;
+  }
+}
+/* Word reveal */
+.wr .w{display:inline-block;overflow:hidden;vertical-align:bottom}
+.wr .w>span{display:inline-block;transform:translateY(110%);transition:transform .7s var(--ease)}
+.wr.in .w>span{transform:none}
+/* Price bump */
+@keyframes priceBump{0%{transform:scale(1)}35%{transform:scale(1.045)}100%{transform:scale(1)}}
+.price-amount.bump{animation:priceBump .4s var(--ease)}
+/* Secure button ready pulse */
+@keyframes readyPulse{0%,100%{box-shadow:0 8px 30px -10px rgba(55,230,255,.45)}50%{box-shadow:0 8px 42px -6px rgba(55,230,255,.75)}}
+#secureBtn:not(:disabled){animation:readyPulse 2.4s ease-in-out infinite}
+/* Cinematic image grading */
+.why-img-wrap img,.todd-visual img{filter:contrast(1.06) saturate(1.12) brightness(.96)}
+.why-img-wrap::before,.todd-visual::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(160deg,rgba(55,230,255,.10),transparent 45%,rgba(167,139,250,.12));
+  mix-blend-mode:overlay;border-radius:inherit;
+}
+/* Film grain on hero */
+.hero-grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.05;z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+/* Price anchor line */
+.price-anchor{
+  display:inline-flex;align-items:center;gap:.6rem;margin-top:1.1rem;
+  font-size:.9rem;color:var(--ink-2);
+  background:var(--glass);border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:.6rem 1.3rem;
+}
+.price-anchor .serif{color:var(--cyan);-webkit-text-fill-color:currentColor;font-size:1.05em}
+/* Parallax containers */
+.plx{will-change:transform}
+@media(prefers-reduced-motion:reduce){
+  .scroll-progress{display:none}
+  .wr .w>span{transform:none;transition:none}
+  #secureBtn:not(:disabled){animation:none}
+  .hero-stage{display:none!important}
+}
 </style>
 </head>
 
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
 
 <!-- STICKY MOBILE BAR -->
@@ -905,7 +935,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mobMenu" role="dialog" aria-label="Navigation menu">
   <a href="#why" onclick="closeMob()">Why Silent Disco</a>
-  <a href="#demo" onclick="closeMob()">Hear It</a>
   <a href="#how" onclick="closeMob()">How It Works</a>
   <a href="#pricing" onclick="closeMob()">Pricing</a>
   <a href="#faq" onclick="closeMob()">FAQs</a>
@@ -921,7 +950,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   <a href="/" class="nav-logo" aria-label="Shush Party Hire — home">Shush<em>.</em></a>
   <ul class="nav-centre" role="list">
     <li><a href="#why">Why Silent Disco</a></li>
-    <li><a href="#demo">Hear It</a></li>
     <li><a href="#how">How It Works</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#faq">FAQs</a></li>
@@ -940,33 +968,39 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   <div class="hero-img" id="heroBg" aria-hidden="true"></div>
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-grain" aria-hidden="true"></div>
   <div class="hero-content">
-    <div class="hero-pill">
-      <span class="pill-dot" aria-hidden="true"></span>
-      Geelong &amp; Bellarine's Only Local Provider
-    </div>
-    <h1>
-      Silent Disco Hire
-      <span class="serif">the party only your guests can hear.</span>
-    </h1>
-    <p class="hero-sub">Three channels of music. Zero noise complaints. From 5 to 95 — if you've got ears and moves, you're in.</p>
-    <div class="hero-btns">
-      <a href="#pricing" class="btn-primary">Build Your Package</a>
-      <a href="#demo" class="btn-ghost">🎧 Hear the Difference</a>
-    </div>
-    <div class="hero-trust">
-      <span class="stars" aria-hidden="true">★★★★★</span>
-      <span>Loved across the Bellarine</span>
-      <span class="ht-div" aria-hidden="true"></span>
-      <span>From $99</span>
-      <span class="ht-div" aria-hidden="true"></span>
-      <span>Free Point Lonsdale pickup</span>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="hero-pill">
+          <span class="pill-dot" aria-hidden="true"></span>
+          Geelong &amp; Bellarine's Only Local Provider
+        </div>
+        <h1>
+          Silent Disco Hire
+          <span class="serif">the party only your guests can hear.</span>
+        </h1>
+        <p class="hero-sub">Three channels of music. Zero noise complaints. From 5 to 95 — if you've got ears and moves, you're in.</p>
+        <div class="hero-btns">
+          <a href="#pricing" class="btn-primary">Build Your Package</a>
+          <a href="#how" class="btn-ghost">See How It Works</a>
+        </div>
+        <div class="hero-trust">
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          <span>Loved across the Bellarine</span>
+          <span class="ht-div" aria-hidden="true"></span>
+          <span>From $99</span>
+          <span class="ht-div" aria-hidden="true"></span>
+          <span>Free Point Lonsdale pickup</span>
+        </div>
+      </div>
+      <div class="hero-stage" id="heroStage" aria-hidden="true"></div>
     </div>
     <div class="hero-stats" role="list">
-      <div class="stat" role="listitem"><div class="stat-n">3</div><div class="stat-l">Music Channels</div></div>
+      <div class="stat" role="listitem"><div class="stat-n" data-count="3">3</div><div class="stat-l">Music Channels</div></div>
       <div class="stat" role="listitem"><div class="stat-n">10–12hr</div><div class="stat-l">Battery Life</div></div>
-      <div class="stat" role="listitem"><div class="stat-n">500m</div><div class="stat-l">Signal Range</div></div>
-      <div class="stat" role="listitem"><div class="stat-n">400</div><div class="stat-l">Headsets Available</div></div>
+      <div class="stat" role="listitem"><div class="stat-n" data-count="500" data-suffix="m">500m</div><div class="stat-l">Signal Range</div></div>
+      <div class="stat" role="listitem"><div class="stat-n" data-count="400">400</div><div class="stat-l">Headsets Available</div></div>
     </div>
   </div>
   <div class="hero-scroll" aria-hidden="true"></div>
@@ -1012,30 +1046,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       </div>
     </div>
     <div class="why-img-wrap reveal reveal-d2">
-      <img src="/images/wedding-event.webp" alt="Guests dancing at a wedding with silent disco headsets lit up in three colours" loading="lazy" decoding="async" width="700" height="500">
-    </div>
-  </div>
-</section>
-
-<!-- AUDIO DEMO -->
-<section class="section-full demo-section" id="demo" aria-labelledby="demo-heading">
-  <div class="section-inner centred">
-    <div class="reveal">
-      <div class="eyebrow" aria-hidden="true">Hear the difference</div>
-      <h2 class="h2" id="demo-heading">Stand outside: silence.<br>Step inside the headphones: <span class="serif">everything.</span></h2>
-      <p class="lead">Outside: just your guests chatting and singing along. Inside the headphones: the full party. Press play and switch between the two.</p>
-    </div>
-    <div class="demo-card reveal reveal-d2">
-      <div class="demo-toggle" role="group" aria-label="Audio demo controls">
-        <button class="demo-btn" id="demoPlay" aria-pressed="false">▶ &nbsp;Play Demo</button>
-        <button class="demo-btn" id="demoOutside" disabled aria-pressed="false">🤫 &nbsp;Outside the Party</button>
-        <button class="demo-btn" id="demoInside" disabled aria-pressed="false">🎧 &nbsp;Inside the Headphones</button>
-      </div>
-      <div class="demo-viz" id="demoViz" aria-hidden="true">
-        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <p class="demo-state" id="demoState">Press play — the beat is generated live in your browser.</p>
-      <p class="demo-hint">This is why venues with noise curfews love us</p>
+      <img class="plx" src="/images/wedding-event.webp" alt="Guests dancing at a wedding with silent disco headsets lit up in three colours" loading="lazy" decoding="async" width="700" height="500">
     </div>
   </div>
 </section>
@@ -1080,7 +1091,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       <div class="ch-card ch-red reveal reveal-d1 live" role="listitem" data-channel="red" tabindex="0" aria-label="Channel one, red — tap to preview">
         <div class="ch-dot" aria-hidden="true"></div>
         <div class="ch-title">Channel One — Red</div>
-        <p class="ch-desc">Your first playlist or DJ broadcasts here. Every guest with a red LED is hearing the same song at the same moment.</p>
+        <p class="ch-desc">Your first playlist broadcasts here. Every guest with a red LED is hearing the same song at the same moment.</p>
         <div class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="ch-hint">▶ Now playing</div>
       </div>
@@ -1129,6 +1140,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       <div class="eyebrow" aria-hidden="true">Transparent pricing</div>
       <h2 class="h2" id="pricing-heading">Build your package <span class="serif">in two minutes.</span></h2>
       <p class="lead">Select your date to check availability, then choose your headsets, duration and extras. Price updates instantly. Secure with a $150 deposit — no hidden fees.</p>
+      <div class="price-anchor">🎧 <span>Fifty headsets — <span class="serif">a whole silent disco</span> — from $6.38 per guest.</span></div>
       <p class="calc-urgent"><span class="urgency-dot" aria-hidden="true"></span> Summer dates filling fast — especially December and January</p>
     </div>
 
@@ -1387,7 +1399,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
 <section class="section" id="story" aria-labelledby="story-heading">
   <div class="todd-wrap">
     <div class="todd-visual reveal">
-      <img src="/images/house-party.webp" alt="Friends dancing at a house party with silent disco headsets" loading="lazy" decoding="async" width="700" height="440">
+      <img class="plx" src="/images/house-party.webp" alt="Friends dancing at a house party with silent disco headsets" loading="lazy" decoding="async" width="700" height="440">
       <div class="todd-quote serif" aria-hidden="true">"Everyone deserves to feel that kind of magic."</div>
     </div>
     <div class="todd-text reveal reveal-d2">
@@ -1518,7 +1530,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       <div class="footer-col">
         <h5>Explore</h5>
         <a href="#why">Why Silent Disco</a>
-        <a href="#demo">Hear the Difference</a>
         <a href="#how">How It Works</a>
         <a href="#pricing">Pricing</a>
         <a href="#events">Events</a>
@@ -1969,253 +1980,248 @@ function closeMob() {
   document.body.style.overflow = '';
 }
 </script>
+
 <script>
 /* ============================================================
-   SHUSH AUDIO DEMO — "Hear the Difference"
-   Inside: a house groove synthesized live with Web Audio.
-   Outside: no music — just guests chatting and singing along.
-   No samples, no copyright, no downloads.
+   SHUSH CINEMA — 3D hero, scroll storytelling, premium motion
+   Everything degrades gracefully: no library, no problem.
    ============================================================ */
 (function() {
   'use strict';
-  var playBtn = document.getElementById('demoPlay');
-  var outBtn  = document.getElementById('demoOutside');
-  var inBtn   = document.getElementById('demoInside');
-  var stateEl = document.getElementById('demoState');
-  var vizEl   = document.getElementById('demoViz');
-  if (!playBtn || !outBtn || !inBtn) return;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var bars = vizEl ? vizEl.querySelectorAll('span') : [];
-  var ctx = null, master, filter, analyser, noiseBuf, crowdBus;
-  var chatterVoices = [], singers = [], chatterTimer = null;
-  var playing = false, mode = 'inside', step = 0, nextTime = 0, timer = null, raf = null;
-  var BPM = 124, STEP = 60 / BPM / 4; /* 16th notes */
-
-  function makeNoise() {
-    var len = ctx.sampleRate * 0.3;
-    var buf = ctx.createBuffer(1, len, ctx.sampleRate);
-    var d = buf.getChannelData(0);
-    for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-    return buf;
+  /* ── Scroll progress bar ───────────────────────────────── */
+  var progress = document.getElementById('scrollProgress');
+  if (progress && !reduced) {
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() {
+        var h = document.documentElement;
+        var p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+        progress.style.transform = 'scaleX(' + Math.min(1, Math.max(0, p)) + ')';
+        ticking = false;
+      });
+    }, { passive: true });
   }
 
-  function build() {
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
-    /* Music path: master -> filter -> analyser -> out */
-    master = ctx.createGain(); master.gain.value = 0.65;
-    filter = ctx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 18000;
-    analyser = ctx.createAnalyser(); analyser.fftSize = 64; analyser.smoothingTimeConstant = 0.78;
-    master.connect(filter); filter.connect(analyser); analyser.connect(ctx.destination);
-    /* Crowd path: crowdBus -> analyser -> out (never filtered) */
-    crowdBus = ctx.createGain(); crowdBus.gain.value = 0;
-    crowdBus.connect(analyser);
-    noiseBuf = makeNoise();
-    buildCrowd();
-  }
-
-  /* ── Crowd: chattering guests ─────────────────────────────
-     Each "voice" is a sawtooth at speech pitch, shaped through
-     a formant-style bandpass, with its gain pulsing in bursts —
-     together they read as party chatter. */
-  function buildCrowd() {
-    var pitches = [105, 128, 152, 188, 224, 251]; /* mixed voices */
-    pitches.forEach(function(p) {
-      var o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = p;
-      var bp = ctx.createBiquadFilter(); bp.type = 'bandpass';
-      bp.frequency.value = 600 + Math.random() * 1200; bp.Q.value = 1.6;
-      var g = ctx.createGain(); g.gain.value = 0;
-      o.connect(bp); bp.connect(g); g.connect(crowdBus);
-      o.start();
-      chatterVoices.push({ osc: o, bp: bp, gain: g, base: p });
-    });
-    /* Two guests "singing along" — soft triangle voices with
-       vibrato that follow the melody of the track they can't hear */
-    for (var i = 0; i < 2; i++) {
-      var o = ctx.createOscillator(); o.type = 'triangle'; o.frequency.value = 220;
-      var vib = ctx.createOscillator(); vib.frequency.value = 5 + i * 0.7;
-      var vibG = ctx.createGain(); vibG.gain.value = 4 + i * 2;
-      vib.connect(vibG); vibG.connect(o.frequency); vib.start();
-      var g = ctx.createGain(); g.gain.value = 0;
-      o.connect(g); g.connect(crowdBus);
-      o.start();
-      singers.push({ osc: o, gain: g, detune: i === 0 ? 0 : 0.985 }); /* second singer slightly off-key */
-    }
-  }
-
-  function chatterTick() {
-    /* Random speech-like bursts: some voices talk, some pause */
-    var t = ctx.currentTime;
-    chatterVoices.forEach(function(v) {
-      if (Math.random() < 0.55) {
-        v.gain.gain.setTargetAtTime(0.03 + Math.random() * 0.05, t, 0.04);
-        v.osc.frequency.setTargetAtTime(v.base * (0.9 + Math.random() * 0.25), t, 0.05);
-        v.bp.frequency.setTargetAtTime(500 + Math.random() * 1600, t, 0.06);
-      } else {
-        v.gain.gain.setTargetAtTime(0.004, t, 0.08);
+  /* ── Word-reveal headlines ─────────────────────────────── */
+  function wrapWords(el) {
+    Array.prototype.slice.call(el.childNodes).forEach(function(node) {
+      if (node.nodeType === 3) {
+        var frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(function(part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          var w = document.createElement('span'); w.className = 'w';
+          var inner = document.createElement('span'); inner.textContent = part;
+          w.appendChild(inner); frag.appendChild(w);
+        });
+        el.replaceChild(frag, node);
+      } else if (node.nodeType === 1 && node.tagName !== 'BR') {
+        wrapWords(node);
       }
     });
-    /* Occasional burst of laughter — quick "ha-ha-ha" */
-    if (Math.random() < 0.09) {
-      for (var i = 0; i < 3; i++) {
-        var lt = t + i * 0.16;
-        var s = ctx.createBufferSource(); s.buffer = noiseBuf;
-        var bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 900 + Math.random() * 500; bp.Q.value = 2.5;
-        var g = ctx.createGain();
-        g.gain.setValueAtTime(0.0001, lt);
-        g.gain.exponentialRampToValueAtTime(0.07, lt + 0.03);
-        g.gain.exponentialRampToValueAtTime(0.0001, lt + 0.13);
-        s.connect(bp); bp.connect(g); g.connect(crowdBus);
-        s.start(lt); s.stop(lt + 0.15);
-      }
-    }
   }
-
-  /* ── Music: the groove inside the headphones ───────────── */
-  function kick(t) {
-    var o = ctx.createOscillator(), g = ctx.createGain();
-    o.frequency.setValueAtTime(150, t);
-    o.frequency.exponentialRampToValueAtTime(44, t + 0.12);
-    g.gain.setValueAtTime(0.85, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.26);
-    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.3);
-  }
-  function hat(t, open) {
-    var s = ctx.createBufferSource(); s.buffer = noiseBuf;
-    var hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 7800;
-    var g = ctx.createGain();
-    g.gain.setValueAtTime(open ? 0.16 : 0.11, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + (open ? 0.22 : 0.06));
-    s.connect(hp); hp.connect(g); g.connect(master); s.start(t); s.stop(t + 0.25);
-  }
-  function clap(t) {
-    var s = ctx.createBufferSource(); s.buffer = noiseBuf;
-    var bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1600; bp.Q.value = 1.4;
-    var g = ctx.createGain();
-    g.gain.setValueAtTime(0.26, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
-    s.connect(bp); bp.connect(g); g.connect(master); s.start(t); s.stop(t + 0.2);
-  }
-  function bass(t, f) {
-    var o = ctx.createOscillator(), g = ctx.createGain(), lp = ctx.createBiquadFilter();
-    o.type = 'sawtooth'; o.frequency.value = f;
-    lp.type = 'lowpass'; lp.frequency.value = 420; lp.Q.value = 4;
-    g.gain.setValueAtTime(0.22, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + STEP * 1.7);
-    o.connect(lp); lp.connect(g); g.connect(master); o.start(t); o.stop(t + STEP * 1.8);
-  }
-  function stab(t) {
-    [261.6, 311.1, 392.0].forEach(function(f) { /* C minor stab */
-      var o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'square'; o.frequency.value = f;
-      g.gain.setValueAtTime(0.045, t);
-      g.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
-      o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.18);
+  if (!reduced && 'IntersectionObserver' in window) {
+    var heads = document.querySelectorAll('.h2, .closing-cta h2');
+    heads.forEach(function(h) { h.classList.add('wr'); wrapWords(h); });
+    heads.forEach(function(h) {
+      h.querySelectorAll('.w>span').forEach(function(s, i) {
+        s.style.transitionDelay = Math.min(i * 45, 600) + 'ms';
+      });
     });
+    var hio = new IntersectionObserver(function(es) {
+      es.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('in'); hio.unobserve(e.target); } });
+    }, { threshold: 0.35 });
+    heads.forEach(function(h) { hio.observe(h); });
   }
 
-  /* C minor house bassline (16 16ths), notes on 8ths */
-  var bassSeq = [65.4, 0, 65.4, 0, 0, 0, 65.4, 0, 78.0, 0, 0, 0, 58.3, 0, 49.0, 0];
-
-  function schedule() {
-    while (nextTime < ctx.currentTime + 0.12) {
-      var s16 = step % 16;
-      if (s16 % 4 === 0) kick(nextTime);
-      if (s16 % 4 === 2) hat(nextTime, s16 === 14);
-      if (s16 === 4 || s16 === 12) clap(nextTime);
-      var bf = bassSeq[s16];
-      if (bf) {
-        bass(nextTime, bf);
-        /* Outside mode: the singers hum that same melody, two octaves up,
-           slightly behind the beat — guests singing along to what only they hear */
-        if (mode === 'outside') {
-          singers.forEach(function(sg, i) {
-            var f = bf * 4 * (sg.detune || 1);
-            sg.osc.frequency.setTargetAtTime(f, nextTime + 0.05 + i * 0.04, 0.05);
-            sg.gain.gain.setTargetAtTime(0.05 + Math.random() * 0.02, nextTime + 0.05, 0.08);
-          });
+  /* ── Stat counters ─────────────────────────────────────── */
+  if ('IntersectionObserver' in window) {
+    var cio = new IntersectionObserver(function(es) {
+      es.forEach(function(e) {
+        if (!e.isIntersecting) return;
+        cio.unobserve(e.target);
+        var el = e.target, target = parseInt(el.dataset.count), suffix = el.dataset.suffix || '';
+        if (reduced || !target) { el.textContent = target + suffix; return; }
+        var t0 = null, dur = 1400;
+        function tick(t) {
+          if (!t0) t0 = t;
+          var p = Math.min(1, (t - t0) / dur);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
         }
-      } else if (mode === 'outside' && s16 % 8 === 4) {
-        /* breathe between phrases */
-        singers.forEach(function(sg) { sg.gain.gain.setTargetAtTime(0.012, nextTime, 0.12); });
-      }
-      if (s16 === 0 && (step % 32) === 16) stab(nextTime);
-      nextTime += STEP;
-      step++;
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('[data-count]').forEach(function(el) { cio.observe(el); });
+  }
+
+  /* ── Parallax images ───────────────────────────────────── */
+  var plx = Array.prototype.slice.call(document.querySelectorAll('.plx'));
+  if (plx.length && !reduced) {
+    var plxTick = false;
+    function parallax() {
+      plx.forEach(function(img) {
+        var r = img.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > window.innerHeight) return;
+        var centre = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
+        img.style.transform = 'translateY(' + (centre * -26).toFixed(1) + 'px) scale(1.08)';
+      });
+      plxTick = false;
+    }
+    window.addEventListener('scroll', function() {
+      if (!plxTick) { plxTick = true; requestAnimationFrame(parallax); }
+    }, { passive: true });
+    parallax();
+  }
+
+  /* ── Channel cards: auto-demo until touched ────────────── */
+  var chCards = Array.prototype.slice.call(document.querySelectorAll('.ch-card'));
+  if (chCards.length === 3 && !reduced && 'IntersectionObserver' in window) {
+    var autoTimer = null, userTouched = false, idx = 0;
+    chCards.forEach(function(c) {
+      c.addEventListener('click', function() { userTouched = true; clearInterval(autoTimer); });
+    });
+    var chio = new IntersectionObserver(function(es) {
+      es.forEach(function(e) {
+        if (e.isIntersecting && !userTouched && !autoTimer) {
+          autoTimer = setInterval(function() {
+            if (userTouched) { clearInterval(autoTimer); return; }
+            idx = (idx + 1) % 3;
+            chCards.forEach(function(c, i) {
+              c.classList.toggle('live', i === idx);
+              var h = c.querySelector('.ch-hint');
+              if (h) h.textContent = i === idx ? '▶ Now playing' : 'Tap to switch';
+            });
+          }, 2600);
+        } else if (!e.isIntersecting && autoTimer) {
+          clearInterval(autoTimer); autoTimer = null;
+        }
+      });
+    }, { threshold: 0.4 });
+    chio.observe(chCards[0].parentNode);
+  }
+
+  /* ── Price bump on change ──────────────────────────────── */
+  var priceEl = document.getElementById('priceDisplay');
+  if (priceEl && 'MutationObserver' in window && !reduced) {
+    new MutationObserver(function() {
+      priceEl.classList.remove('bump');
+      void priceEl.offsetWidth;
+      priceEl.classList.add('bump');
+    }).observe(priceEl, { childList: true, characterData: true, subtree: true });
+  }
+
+  /* ── 3D headphone hero ─────────────────────────────────── */
+  var stage = document.getElementById('heroStage');
+  if (stage && window.innerWidth >= 1100 && !reduced) {
+    var loaded = false;
+    var load3D = function() {
+      if (loaded) return; loaded = true;
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      s.async = true;
+      s.onload = function() { try { build3D(); } catch (e) { stage.style.display = 'none'; } };
+      s.onerror = function() { stage.style.display = 'none'; };
+      document.head.appendChild(s);
+    };
+    if ('requestIdleCallback' in window) { requestIdleCallback(load3D, { timeout: 2500 }); }
+    else { setTimeout(load3D, 800); }
+
+    function build3D() {
+      var W = stage.clientWidth, H = stage.clientHeight;
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 50);
+      camera.position.set(0, 0.2, 6.4);
+      var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(W, H);
+      stage.appendChild(renderer.domElement);
+
+      var group = new THREE.Group();
+      scene.add(group);
+
+      var bodyMat = new THREE.MeshStandardMaterial({ color: 0x181824, roughness: 0.32, metalness: 0.72 });
+      var cushionMat = new THREE.MeshStandardMaterial({ color: 0x0c0c14, roughness: 0.85, metalness: 0.1 });
+      var ledMat = new THREE.MeshStandardMaterial({ color: 0x220000, emissive: 0xff4444, emissiveIntensity: 2.2, roughness: 0.4 });
+
+      /* Headband */
+      var band = new THREE.Mesh(new THREE.TorusGeometry(1.55, 0.1, 24, 80, Math.PI), bodyMat);
+      group.add(band);
+      var pad = new THREE.Mesh(new THREE.TorusGeometry(1.42, 0.055, 16, 60, Math.PI * 0.7), cushionMat);
+      pad.rotation.z = Math.PI * 0.15;
+      group.add(pad);
+
+      /* Ear cups + LED rings */
+      [-1, 1].forEach(function(side) {
+        var cup = new THREE.Group();
+        var shell = new THREE.Mesh(new THREE.CylinderGeometry(0.58, 0.66, 0.44, 48), bodyMat);
+        shell.rotation.z = Math.PI / 2;
+        cup.add(shell);
+        var cushion = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.16, 24, 48), cushionMat);
+        cushion.rotation.y = Math.PI / 2;
+        cushion.position.x = side * 0.18;
+        cup.add(cushion);
+        var led = new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.028, 16, 64), ledMat);
+        led.rotation.y = Math.PI / 2;
+        led.position.x = side * -0.24;
+        cup.add(led);
+        cup.position.set(side * 1.55, -0.28, 0);
+        cup.rotation.z = side * -0.12;
+        group.add(cup);
+      });
+
+      /* Lights */
+      scene.add(new THREE.AmbientLight(0x8888aa, 0.55));
+      var key = new THREE.DirectionalLight(0x66e6ff, 1.1); key.position.set(-3, 4, 5); scene.add(key);
+      var rim = new THREE.PointLight(0xa78bfa, 1.4, 20); rim.position.set(4, -1, 3); scene.add(rim);
+
+      group.rotation.x = 0.14;
+
+      /* LED colour cycle — matches the three channels */
+      var ledColours = [0xff4444, 0x44ff88, 0x4488ff];
+      var ledIdx = 0;
+      setInterval(function() {
+        ledIdx = (ledIdx + 1) % 3;
+        ledMat.emissive.setHex(ledColours[ledIdx]);
+      }, 3000);
+
+      /* Mouse parallax */
+      var tx = 0, ty = 0;
+      document.addEventListener('mousemove', function(e) {
+        tx = (e.clientX / window.innerWidth - 0.5) * 0.55;
+        ty = (e.clientY / window.innerHeight - 0.5) * 0.3;
+      }, { passive: true });
+
+      /* Only render while hero is on screen */
+      var visible = true;
+      new IntersectionObserver(function(es) { visible = es[0].isIntersecting; }, { threshold: 0 })
+        .observe(stage);
+
+      window.addEventListener('resize', function() {
+        var w = stage.clientWidth, h = stage.clientHeight;
+        if (!w || !h) return;
+        camera.aspect = w / h; camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      });
+
+      var t = 0;
+      (function animate() {
+        requestAnimationFrame(animate);
+        if (!visible) return;
+        t += 0.008;
+        group.rotation.y += ((Math.sin(t * 0.6) * 0.45 + tx * 1.6) - group.rotation.y) * 0.04;
+        group.rotation.x += ((0.14 + ty) - group.rotation.x) * 0.05;
+        group.position.y = Math.sin(t * 1.4) * 0.07;
+        ledMat.emissiveIntensity = 2 + Math.sin(t * 4) * 0.5;
+        renderer.render(scene, camera);
+      })();
     }
   }
-
-  function draw() {
-    if (!playing) return;
-    var data = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(data);
-    for (var i = 0; i < bars.length; i++) {
-      var v = data[Math.floor(i * data.length / bars.length / 1.6)] / 255;
-      bars[i].style.height = Math.max(6, v * 100) + '%';
-    }
-    raf = requestAnimationFrame(draw);
-  }
-
-  function setMode(m) {
-    mode = m;
-    var t = ctx.currentTime;
-    if (m === 'outside') {
-      /* Music vanishes — guests' voices and singing take over */
-      master.gain.setTargetAtTime(0.0001, t, 0.12);
-      crowdBus.gain.setTargetAtTime(0.85, t, 0.2);
-      if (!chatterTimer) chatterTimer = setInterval(chatterTick, 150);
-      stateEl.innerHTML = '<strong>This is all the street hears:</strong> chatting, laughing, and a few people singing along to a song you can’t hear.';
-    } else {
-      master.gain.setTargetAtTime(0.65, t, 0.1);
-      crowdBus.gain.setTargetAtTime(0.0001, t, 0.12);
-      clearInterval(chatterTimer); chatterTimer = null;
-      singers.forEach(function(sg) { sg.gain.gain.setTargetAtTime(0, t, 0.05); });
-      stateEl.innerHTML = '<strong>Full volume, rich and clear</strong> — exactly what every guest hears in the headphones.';
-    }
-    outBtn.classList.toggle('active', m === 'outside');
-    inBtn.classList.toggle('active', m === 'inside');
-    outBtn.setAttribute('aria-pressed', m === 'outside');
-    inBtn.setAttribute('aria-pressed', m === 'inside');
-  }
-
-  function start() {
-    if (!ctx) build();
-    if (ctx.state === 'suspended') ctx.resume();
-    playing = true;
-    step = 0;
-    nextTime = ctx.currentTime + 0.06;
-    timer = setInterval(schedule, 40);
-    draw();
-    playBtn.innerHTML = '⏸ &nbsp;Stop Demo';
-    playBtn.classList.add('active');
-    playBtn.setAttribute('aria-pressed', 'true');
-    outBtn.disabled = false;
-    inBtn.disabled = false;
-    setMode('inside');
-  }
-
-  function stop() {
-    playing = false;
-    clearInterval(timer);
-    clearInterval(chatterTimer); chatterTimer = null;
-    cancelAnimationFrame(raf);
-    if (master) master.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.05);
-    if (crowdBus) crowdBus.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.05);
-    singers.forEach(function(sg) { sg.gain.gain.setTargetAtTime(0, ctx.currentTime, 0.05); });
-    for (var i = 0; i < bars.length; i++) bars[i].style.height = '8%';
-    playBtn.innerHTML = '▶ &nbsp;Play Demo';
-    playBtn.classList.remove('active');
-    playBtn.setAttribute('aria-pressed', 'false');
-    outBtn.disabled = true;
-    inBtn.disabled = true;
-    outBtn.classList.remove('active');
-    inBtn.classList.remove('active');
-    stateEl.textContent = 'Press play — the beat is generated live in your browser.';
-  }
-
-  playBtn.addEventListener('click', function() { playing ? stop() : start(); });
-  outBtn.addEventListener('click', function() { if (playing) setMode('outside'); });
-  inBtn.addEventListener('click', function() { if (playing) setMode('inside'); });
-  document.addEventListener('visibilitychange', function() { if (document.hidden && playing) stop(); });
 })();
 </script>
 
@@ -2235,27 +2241,65 @@ function closeMob() {
     }
   </script>
 <script>
-/* Shush — Conversion Events: GA4 + Meta Pixel */
-/* These fire automatically once SHUSH_GA4_ID / SHUSH_META_PIXEL_ID are set in the head. */
+/* ============================================================
+   Shush — Full-funnel analytics: GA4 e-commerce + Meta Pixel
+   Fires automatically once SHUSH_GA4_ID / SHUSH_META_PIXEL_ID
+   are set in the head. Zero overhead when IDs are empty.
+   ============================================================ */
 (function(){
+  'use strict';
+  function ga(name, params){ if(typeof gtag==='function') gtag('event', name, params||{}); }
+  function fb(name, params){ if(typeof fbq==='function') fbq('track', name, params||{}); }
+  function currentPrice(){ return parseFloat((document.getElementById('totalVal')||{textContent:''}).textContent.replace(/[^0-9.]/g,''))||0; }
+  function currentQty(){ return (document.getElementById('calcQty')||{}).value||''; }
+  function item(){ return { item_name:'Silent Disco Hire — '+currentQty()+' headsets', item_category:'hire', price:currentPrice(), quantity:1 }; }
+
+  /* Funnel step 1: first interaction with the calculator */
   var calcFired=false;
-  ['calcDate','calcQty','calcDuration','calcDelivery'].forEach(function(id){
+  ['calcDate','calcQty','calcDuration','calcDelivery','guestCount'].forEach(function(id){
     var el=document.getElementById(id);
     if(!el)return;
     el.addEventListener('change',function(){
-      if(calcFired)return;
-      calcFired=true;
-      if(typeof gtag==='function')gtag('event','begin_checkout',{event_category:'calculator',event_label:'pricing_calculator'});
-      if(typeof fbq==='function')fbq('track','InitiateCheckout');
+      if(calcFired)return; calcFired=true;
+      ga('begin_checkout',{currency:'AUD',value:currentPrice(),items:[item()]});
+      fb('InitiateCheckout');
     });
   });
+
+  /* Funnel step 2: package selection changes */
+  var qtySel=document.getElementById('calcQty');
+  if(qtySel)qtySel.addEventListener('change',function(){
+    ga('select_item',{item_list_name:'headset_packages',items:[item()]});
+  });
+
+  /* Funnel step 3: date picked (availability check) */
+  var dateEl=document.getElementById('calcDate');
+  if(dateEl)dateEl.addEventListener('change',function(){
+    if(this.value) ga('date_selected',{event_date:this.value});
+  });
+
+  /* Funnel step 4: proceed to Stripe */
   var btn=document.getElementById('secureBtn');
   if(btn)btn.addEventListener('click',function(){
-    var price=parseFloat((document.getElementById('totalVal')||{}).textContent.replace(/[^0-9.]/g,'')||'0')||0;
-    var qty=(document.getElementById('calcQty')||{}).value||'';
-    if(typeof gtag==='function')gtag('event','add_to_cart',{currency:'AUD',value:price,items:[{item_name:'Silent Disco Hire - '+qty+' headsets'}]});
-    if(typeof fbq==='function')fbq('track','AddToCart',{currency:'AUD',value:price});
+    ga('add_to_cart',{currency:'AUD',value:currentPrice(),items:[item()]});
+    ga('add_payment_info',{currency:'AUD',value:150,payment_type:'stripe_deposit'});
+    fb('AddToCart',{currency:'AUD',value:currentPrice()});
   });
+
+  /* Lead capture: email clicks */
+  document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){
+    a.addEventListener('click',function(){ ga('generate_lead',{method:'email'}); fb('Lead'); });
+  });
+
+  /* Scroll depth: 25 / 50 / 75 / 90 */
+  var marks=[25,50,75,90], seen={};
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement;
+    var pct=Math.round(h.scrollTop/(h.scrollHeight-h.clientHeight)*100);
+    marks.forEach(function(m){
+      if(pct>=m && !seen[m]){ seen[m]=true; ga('scroll_depth',{percent:m}); }
+    });
+  },{passive:true});
 })();
 </script>
 </body>
