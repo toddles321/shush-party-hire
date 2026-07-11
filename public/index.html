@@ -857,26 +857,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   background:var(--grad);transform-origin:0 50%;transform:scaleX(0);
   pointer-events:none;
 }
-/* Hero split layout with 3D stage (desktop) */
-.hero-grid{display:block}
-.hero-stage{display:none}
-@media(min-width:1100px){
-  .hero{text-align:left}
-  .hero-content{max-width:1200px}
-  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:2rem;align-items:center}
-  .hero-copy .hero-btns,.hero-copy .hero-trust{justify-content:flex-start}
-  .hero-copy h1 .serif{margin-top:.9rem}
-  .hero-stage{
-    display:block;position:relative;height:520px;
-  }
-  .hero-stage canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
-  .hero-stage::after{
-    content:'';position:absolute;left:50%;bottom:8%;transform:translateX(-50%);
-    width:60%;height:24px;border-radius:50%;
-    background:radial-gradient(50% 50% at 50% 50%,rgba(55,230,255,.18),transparent 70%);
-    filter:blur(6px);pointer-events:none;
-  }
-}
 /* Word reveal */
 .wr .w{display:inline-block;overflow:hidden;vertical-align:bottom}
 .wr .w>span{display:inline-block;transform:translateY(110%);transition:transform .7s var(--ease)}
@@ -917,6 +897,48 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
 }
 .video-wrap video{width:100%;height:auto;display:block}
 .video-note{margin-top:1.6rem;font-size:var(--t-small);color:var(--ink-3)}
+/* ── Ambient orbs: living colour behind key sections ── */
+#why,#events,#story,#contact{position:relative}
+#why::before,#events::before,#story::before,#contact::before{
+  content:'';position:absolute;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(55,230,255,.10),transparent 65%);
+  top:-90px;right:-160px;pointer-events:none;filter:blur(10px);
+  animation:orbDrift 16s ease-in-out infinite alternate;
+}
+#events::before,#contact::before{
+  left:-160px;right:auto;
+  background:radial-gradient(circle,rgba(167,139,250,.10),transparent 65%);
+  animation-duration:20s;
+}
+@keyframes orbDrift{
+  from{transform:translate(0,0) scale(1)}
+  to{transform:translate(-60px,70px) scale(1.15)}
+}
+@media(prefers-reduced-motion:reduce){
+  #why::before,#events::before,#story::before,#contact::before{animation:none}
+}
+
+/* ── Mobile: swipeable card rails instead of text walls ── */
+@media(max-width:768px){
+  .specs-grid,.whatif-grid,.testimonials-grid{
+    display:grid;grid-auto-flow:column;
+    overflow-x:auto;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    margin-inline:-1.2rem;padding:0 1.2rem 1.1rem;
+    scrollbar-width:none;
+    mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+  }
+  .specs-grid::-webkit-scrollbar,.whatif-grid::-webkit-scrollbar,.testimonials-grid::-webkit-scrollbar{display:none}
+  .specs-grid{grid-auto-columns:62%;gap:.9rem}
+  .whatif-grid{grid-auto-columns:82%;gap:.9rem}
+  .testimonials-grid{grid-auto-columns:84%;gap:.9rem}
+  .spec-card,.wi-card,.t-card{scroll-snap-align:center}
+  .rail-hint{display:block;text-align:center;font-size:.7rem;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:.2rem}
+}
+@media(min-width:769px){.rail-hint{display:none}}
+
 /* Parallax containers */
 .plx{will-change:transform}
 @media(prefers-reduced-motion:reduce){
@@ -981,8 +1003,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="hero-grain" aria-hidden="true"></div>
   <div class="hero-content">
-    <div class="hero-grid">
-      <div class="hero-copy">
         <div class="hero-pill">
           <span class="pill-dot" aria-hidden="true"></span>
           Geelong &amp; Bellarine's Only Local Provider
@@ -1004,9 +1024,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
           <span class="ht-div" aria-hidden="true"></span>
           <span>Free Point Lonsdale pickup</span>
         </div>
-      </div>
-      <div class="hero-stage" id="heroStage" aria-hidden="true"></div>
-    </div>
     <div class="hero-stats" role="list">
       <div class="stat" role="listitem"><div class="stat-n" data-count="3">3</div><div class="stat-l">Music Channels</div></div>
       <div class="stat" role="listitem"><div class="stat-n">10–12hr</div><div class="stat-l">Battery Life</div></div>
@@ -1044,9 +1061,8 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     <div class="why-text reveal">
       <div class="eyebrow" aria-hidden="true">The experience</div>
       <h2 class="h2" id="why-heading">The moment they put the headphones on, <span class="serif">everything changes.</span></h2>
-      <p>One person is singing along to '90s pop. The person beside them is lost in house music. Someone at the back has just discovered they love hip-hop. From the outside, they're all dancing together in near-silence — and it's the most joyful thing you'll ever see at a party.</p>
-      <p>That's a silent disco. And it works <strong>anywhere speakers cannot go.</strong> Winery lawns, holiday houses, beach events, rooftops, backyards, aged care common rooms, school halls — wherever noise is a problem, the music plays on through the headsets.</p>
-      <p>Three channels means three different music experiences happening simultaneously. Every guest finds their sound. Every generation joins the same dance floor.</p>
+      <p>One guest is belting '90s pop. The next is lost in house music. From the outside they're dancing in near-silence — and it's the most joyful thing you'll ever see at a party.</p>
+      <p>It works <strong>anywhere speakers can't go</strong> — and with three channels, every guest finds their sound. Every generation, same dance floor.</p>
       <div class="why-tags" aria-label="Perfect venues">
         <span class="why-tag">🏡 Holiday Houses</span>
         <span class="why-tag">🍷 Winery Lawns</span>
@@ -1142,6 +1158,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     <div class="spec-card" role="listitem"><span class="spec-icon" aria-hidden="true">🧼</span><div class="spec-title">Easy-Clean Surfaces</div><div class="spec-val">Smooth surfaces, minimal hair-tangle. Every headset cleaned before hire.</div></div>
     <div class="spec-card" role="listitem"><span class="spec-icon" aria-hidden="true">📦</span><div class="spec-title">Foldable &amp; Compact</div><div class="spec-val">Packs into transport tubs. Up to 200 headsets fit in a standard car.</div></div>
   </div>
+  <p class="rail-hint" aria-hidden="true">Swipe →</p>
 </section>
 
 <!-- SETUP VIDEO -->
@@ -1150,7 +1167,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     <div class="reveal">
       <div class="eyebrow" aria-hidden="true">Watch how easy it is</div>
       <h2 class="h2" id="setup-heading">Set up in <span class="serif">under ten minutes.</span></h2>
-      <p class="lead">Five steps from box to dance floor. Here's the 30-second run-through.</p>
+      <p class="lead">Five steps from box to dance floor. Watch the 45-second run-through — with sound on.</p>
     </div>
     <div class="video-wrap reveal reveal-d2">
       <video id="setupVideo" controls playsinline preload="metadata" poster="/images/setup-poster.jpg" width="1280" height="720" aria-label="Animated guide: how to set up your Shush silent disco in five steps">
@@ -1360,6 +1377,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
         <p class="wi-a">Three buttons: power, volume, channel. That's the entire learning curve. <strong>Ryman Retirement Village in Ocean Grove</strong> is among our past clients. Every generation manages it.</p>
       </div>
     </div>
+    <p class="rail-hint" aria-hidden="true">Swipe →</p>
   </div>
 </section>
 
@@ -1417,6 +1435,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
         </div>
       </div>
     </div>
+    <p class="rail-hint" aria-hidden="true">Swipe →</p>
     <div class="trusted-row reveal">
       <span>Trusted by local venues and event organisers</span>
       <span class="trusted-logo">Ryman Retirement Village — Ocean Grove</span>
@@ -2145,118 +2164,6 @@ function closeMob() {
     }).observe(priceEl, { childList: true, characterData: true, subtree: true });
   }
 
-  /* ── 3D headphone hero (static single frame if reduced motion) ── */
-  var stage = document.getElementById('heroStage');
-  if (stage && window.innerWidth >= 1100) {
-    var loaded = false;
-    var load3D = function() {
-      if (loaded) return; loaded = true;
-      var s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-      s.async = true;
-      s.onload = function() { try { build3D(); } catch (e) { stage.style.display = 'none'; } };
-      s.onerror = function() { stage.style.display = 'none'; };
-      document.head.appendChild(s);
-    };
-    if ('requestIdleCallback' in window) { requestIdleCallback(load3D, { timeout: 2500 }); }
-    else { setTimeout(load3D, 800); }
-
-    function build3D() {
-      var W = stage.clientWidth, H = stage.clientHeight;
-      var scene = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 50);
-      camera.position.set(0, 0.2, 6.4);
-      var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      renderer.setSize(W, H);
-      stage.appendChild(renderer.domElement);
-
-      var group = new THREE.Group();
-      scene.add(group);
-
-      var bodyMat = new THREE.MeshStandardMaterial({ color: 0x181824, roughness: 0.32, metalness: 0.72 });
-      var cushionMat = new THREE.MeshStandardMaterial({ color: 0x0c0c14, roughness: 0.85, metalness: 0.1 });
-      var ledMat = new THREE.MeshStandardMaterial({ color: 0x220000, emissive: 0xff4444, emissiveIntensity: 2.2, roughness: 0.4 });
-
-      /* Headband */
-      var band = new THREE.Mesh(new THREE.TorusGeometry(1.55, 0.1, 24, 80, Math.PI), bodyMat);
-      group.add(band);
-      var pad = new THREE.Mesh(new THREE.TorusGeometry(1.42, 0.055, 16, 60, Math.PI * 0.7), cushionMat);
-      pad.rotation.z = Math.PI * 0.15;
-      group.add(pad);
-
-      /* Ear cups + LED rings */
-      [-1, 1].forEach(function(side) {
-        var cup = new THREE.Group();
-        var shell = new THREE.Mesh(new THREE.CylinderGeometry(0.58, 0.66, 0.44, 48), bodyMat);
-        shell.rotation.z = Math.PI / 2;
-        cup.add(shell);
-        var cushion = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.16, 24, 48), cushionMat);
-        cushion.rotation.y = Math.PI / 2;
-        cushion.position.x = side * 0.18;
-        cup.add(cushion);
-        var led = new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.028, 16, 64), ledMat);
-        led.rotation.y = Math.PI / 2;
-        led.position.x = side * -0.24;
-        cup.add(led);
-        cup.position.set(side * 1.55, -0.28, 0);
-        cup.rotation.z = side * -0.12;
-        group.add(cup);
-      });
-
-      /* Lights */
-      scene.add(new THREE.AmbientLight(0x8888aa, 0.55));
-      var key = new THREE.DirectionalLight(0x66e6ff, 1.1); key.position.set(-3, 4, 5); scene.add(key);
-      var rim = new THREE.PointLight(0xa78bfa, 1.4, 20); rim.position.set(4, -1, 3); scene.add(rim);
-
-      group.rotation.x = 0.14;
-
-      /* LED colour cycle — matches the three channels */
-      var ledColours = [0xff4444, 0x44ff88, 0x4488ff];
-      var ledIdx = 0;
-      setInterval(function() {
-        ledIdx = (ledIdx + 1) % 3;
-        ledMat.emissive.setHex(ledColours[ledIdx]);
-      }, 3000);
-
-      /* Mouse parallax */
-      var tx = 0, ty = 0;
-      document.addEventListener('mousemove', function(e) {
-        tx = (e.clientX / window.innerWidth - 0.5) * 0.55;
-        ty = (e.clientY / window.innerHeight - 0.5) * 0.3;
-      }, { passive: true });
-
-      /* Only render while hero is on screen */
-      var visible = true;
-      new IntersectionObserver(function(es) { visible = es[0].isIntersecting; }, { threshold: 0 })
-        .observe(stage);
-
-      window.addEventListener('resize', function() {
-        var w = stage.clientWidth, h = stage.clientHeight;
-        if (!w || !h) return;
-        camera.aspect = w / h; camera.updateProjectionMatrix();
-        renderer.setSize(w, h);
-      });
-
-      if (reduced) {
-        /* Reduce Motion: render one beautiful still frame, no animation */
-        group.rotation.y = 0.42;
-        renderer.render(scene, camera);
-        return;
-      }
-      var t = 0;
-      (function animate() {
-        requestAnimationFrame(animate);
-        if (!visible) return;
-        t += 0.008;
-        group.rotation.y += ((Math.sin(t * 0.6) * 0.45 + tx * 1.6) - group.rotation.y) * 0.04;
-        group.rotation.x += ((0.14 + ty) - group.rotation.x) * 0.05;
-        group.position.y = Math.sin(t * 1.4) * 0.07;
-        ledMat.emissiveIntensity = 2 + Math.sin(t * 4) * 0.5;
-        renderer.render(scene, camera);
-      })();
-    }
-  }
 })();
 </script>
 
@@ -2270,7 +2177,7 @@ function closeMob() {
   "thumbnailUrl": "https://shushpartyhire.com.au/images/setup-poster.jpg",
   "contentUrl": "https://shushpartyhire.com.au/videos/setup-video.mp4",
   "uploadDate": "2026-07-12",
-  "duration": "PT30S",
+  "duration": "PT45S",
   "publisher": {"@type": "Organization", "name": "Shush Party Hire", "url": "https://shushpartyhire.com.au"}
 }
 </script>
