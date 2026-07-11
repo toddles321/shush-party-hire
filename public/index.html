@@ -907,13 +907,22 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   padding:.6rem 1.3rem;
 }
 .price-anchor .serif{color:var(--cyan);-webkit-text-fill-color:currentColor;font-size:1.05em}
+/* Setup video */
+.video-section{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.video-wrap{
+  position:relative;max-width:880px;margin:3rem auto 0;
+  border-radius:var(--r-l);overflow:hidden;
+  border:1px solid var(--line-2);box-shadow:var(--shadow-card);
+  background:#000;
+}
+.video-wrap video{width:100%;height:auto;display:block}
+.video-note{margin-top:1.6rem;font-size:var(--t-small);color:var(--ink-3)}
 /* Parallax containers */
 .plx{will-change:transform}
 @media(prefers-reduced-motion:reduce){
   .scroll-progress{display:none}
   .wr .w>span{transform:none;transition:none}
   #secureBtn:not(:disabled){animation:none}
-  .hero-stage{display:none!important}
 }
 </style>
 </head>
@@ -936,6 +945,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
 <div class="mob-menu" id="mobMenu" role="dialog" aria-label="Navigation menu">
   <a href="#why" onclick="closeMob()">Why Silent Disco</a>
   <a href="#how" onclick="closeMob()">How It Works</a>
+  <a href="#setup" onclick="closeMob()">Setup Video</a>
   <a href="#pricing" onclick="closeMob()">Pricing</a>
   <a href="#faq" onclick="closeMob()">FAQs</a>
   <div class="mob-divider"></div>
@@ -951,6 +961,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   <ul class="nav-centre" role="list">
     <li><a href="#why">Why Silent Disco</a></li>
     <li><a href="#how">How It Works</a></li>
+    <li><a href="#setup">Setup Video</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#faq">FAQs</a></li>
   </ul>
@@ -1130,6 +1141,24 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     <div class="spec-card" role="listitem"><span class="spec-icon" aria-hidden="true">🔊</span><div class="spec-title">Individual Volume Control</div><div class="spec-val">Every guest sets their own level — ideal for mixed ages.</div></div>
     <div class="spec-card" role="listitem"><span class="spec-icon" aria-hidden="true">🧼</span><div class="spec-title">Easy-Clean Surfaces</div><div class="spec-val">Smooth surfaces, minimal hair-tangle. Every headset cleaned before hire.</div></div>
     <div class="spec-card" role="listitem"><span class="spec-icon" aria-hidden="true">📦</span><div class="spec-title">Foldable &amp; Compact</div><div class="spec-val">Packs into transport tubs. Up to 200 headsets fit in a standard car.</div></div>
+  </div>
+</section>
+
+<!-- SETUP VIDEO -->
+<section class="section-full video-section" id="setup" aria-labelledby="setup-heading">
+  <div class="section-inner centred">
+    <div class="reveal">
+      <div class="eyebrow" aria-hidden="true">Watch how easy it is</div>
+      <h2 class="h2" id="setup-heading">Set up in <span class="serif">under ten minutes.</span></h2>
+      <p class="lead">Five steps from box to dance floor. Here's the 30-second run-through.</p>
+    </div>
+    <div class="video-wrap reveal reveal-d2">
+      <video id="setupVideo" controls playsinline preload="metadata" poster="/images/setup-poster.jpg" width="1280" height="720" aria-label="Animated guide: how to set up your Shush silent disco in five steps">
+        <source src="/videos/setup-video.mp4" type="video/mp4">
+        Your browser doesn't support video. The written guide is included with every hire.
+      </video>
+    </div>
+    <p class="video-note">Every hire also includes this as a written step-by-step guide — plus Todd on email throughout your event.</p>
   </div>
 </section>
 
@@ -2116,9 +2145,9 @@ function closeMob() {
     }).observe(priceEl, { childList: true, characterData: true, subtree: true });
   }
 
-  /* ── 3D headphone hero ─────────────────────────────────── */
+  /* ── 3D headphone hero (static single frame if reduced motion) ── */
   var stage = document.getElementById('heroStage');
-  if (stage && window.innerWidth >= 1100 && !reduced) {
+  if (stage && window.innerWidth >= 1100) {
     var loaded = false;
     var load3D = function() {
       if (loaded) return; loaded = true;
@@ -2209,6 +2238,12 @@ function closeMob() {
         renderer.setSize(w, h);
       });
 
+      if (reduced) {
+        /* Reduce Motion: render one beautiful still frame, no animation */
+        group.rotation.y = 0.42;
+        renderer.render(scene, camera);
+        return;
+      }
       var t = 0;
       (function animate() {
         requestAnimationFrame(animate);
@@ -2223,6 +2258,21 @@ function closeMob() {
     }
   }
 })();
+</script>
+
+<!-- Video Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "How to set up your silent disco — Shush Party Hire",
+  "description": "Five steps, under ten minutes: plug in the transmitter, connect your music, set the channels, switch on the headphones, press play.",
+  "thumbnailUrl": "https://shushpartyhire.com.au/images/setup-poster.jpg",
+  "contentUrl": "https://shushpartyhire.com.au/videos/setup-video.mp4",
+  "uploadDate": "2026-07-12",
+  "duration": "PT30S",
+  "publisher": {"@type": "Organization", "name": "Shush Party Hire", "url": "https://shushpartyhire.com.au"}
+}
 </script>
 
 <!-- FAQ Schema -->
@@ -2285,6 +2335,17 @@ function closeMob() {
     ga('add_payment_info',{currency:'AUD',value:150,payment_type:'stripe_deposit'});
     fb('AddToCart',{currency:'AUD',value:currentPrice()});
   });
+
+  /* Engagement: setup video */
+  var vid=document.getElementById('setupVideo');
+  if(vid){
+    var vidFired=false;
+    vid.addEventListener('play',function(){
+      if(vidFired)return; vidFired=true;
+      ga('video_start',{video_title:'setup_guide'});
+    });
+    vid.addEventListener('ended',function(){ ga('video_complete',{video_title:'setup_guide'}); });
+  }
 
   /* Lead capture: email clicks */
   document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){
