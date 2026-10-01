@@ -95,9 +95,8 @@ export async function onRequestPost(context) {
         );
       }
 
-      // Send confirmation emails via Resend API
-      // Requires RESEND_API_KEY env var — sign up free at resend.com
-      if (env.RESEND_API_KEY && customerEmail) {
+      // Send emails via Resend (RESEND_API_KEY). Owner alert always goes to info@.
+      if (env.RESEND_API_KEY) {
         await sendConfirmationEmails({
           resendApiKey: env.RESEND_API_KEY,
           customerEmail,
@@ -106,10 +105,17 @@ export async function onRequestPost(context) {
           headsetQty,
           suburb,
           mobile,
+          notes,
           amountPaid,
           sessionId: session.id,
           packagePrice,
+          duration: meta.duration || '',
+          delivery: meta.delivery || '0',
+          recordId,
+          baseId: env.AIRTABLE_BASE_ID,
         });
+      } else {
+        console.error('RESEND_API_KEY missing - no booking emails sent');
       }
     }
 
@@ -121,95 +127,124 @@ export async function onRequestPost(context) {
   }
 }
 
-async function sendConfirmationEmails({ resendApiKey, customerEmail, customerName, eventDate, headsetQty, suburb, mobile, amountPaid, sessionId, packagePrice }) {
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+async function sendResend(apiKey, payload, label) {
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      console.error(`Resend ${label} FAILED (${res.status}):`, await res.text());
+      return false;
+    }
+    console.log(`Resend ${label} sent`);
+    return true;
+  } catch (e) {
+    console.error(`Resend ${label} error:`, e.message);
+    return false;
+  }
+}
+
+async function sendConfirmationEmails({ resendApiKey, customerEmail, customerName, eventDate, headsetQty, suburb, mobile, notes, amountPaid, sessionId, packagePrice, duration, delivery, recordId, baseId }) {
   const balanceDue = Math.max(0, (parseFloat(packagePrice) || 0) - parseFloat(amountPaid)).toFixed(2);
   const fromEmail = 'info@shushpartyhire.com.au';
-  const toddEmail = 'info@shushpartyhire.com.au';   // every new booking lands in the shared inbox
+  const ownerEmail = 'info@shushpartyhire.com.au';   // every new booking lands in the shared inbox
 
-  const formattedDate = eventDate
-    ? new Date(eventDate).toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+  const d = eventDate ? new Date(eventDate + 'T12:00:00Z') : null;
+  const formattedDate = d && !isNaN(d)
+    ? d.toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })
     : 'TBC';
+  const shortDate = d && !isNaN(d)
+    ? d.toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })
+    : 'date TBC';
+  const durLabel = ({ '1': '1 night', '2': '2-3 nights', '7': '1 week' })[duration] || duration || '';
+  const delLabel = String(delivery) === '40' ? 'Delivery ($40)' : 'Free pickup (Point Lonsdale)';
 
-  // Customer confirmation email
+  // One-click "Add to Google Calendar" for the owner
+  const ymd = eventDate ? eventDate.replace(/-/g, '') : '';
+  const calLink = ymd
+    ? 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' +
+      encodeURIComponent(`SHUSH: ${headsetQty} headsets - ${customerName}`) +
+      `&dates=${ymd}/${ymd}&details=` +
+      encodeURIComponent(`${customerName}\n${mobile}\n${customerEmail}\n${suburb}\n${delLabel}\nBalance due: $${balanceDue}`) +
+      '&location=' + encodeURIComponent(suburb || '')
+    : '';
+  const airtableLink = (baseId && recordId) ? `https://airtable.com/${baseId}` : '';
+  const stripeLink = `https://dashboard.stripe.com/payments?query=${encodeURIComponent(sessionId)}`;
+
+  const row = (k, v) => `<tr><td style="padding:6px 0;color:#6b7280;font-size:14px">${k}</td><td style="padding:6px 0;text-align:right;font-weight:600;color:#111827">${v}</td></tr>`;
+
   const customerHtml = `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
 <div style="max-width:560px;margin:0 auto;padding:40px 20px">
   <div style="background:#0d0d0d;border-radius:12px;padding:32px;text-align:center;margin-bottom:24px">
-    <h1 style="margin:0;font-size:28px;font-weight:800;color:#fff">Shush<span style="background:linear-gradient(135deg,#a78bfa,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent">.</span></h1>
-    <p style="margin:8px 0 0;color:#9ca3af;font-size:14px">Silent Disco Hire · Geelong &amp; Bellarine</p>
+    <h1 style="margin:0;font-size:28px;font-weight:800;color:#fff">Shush.</h1>
+    <p style="margin:8px 0 0;color:#9ca3af;font-size:14px">Silent Disco Hire &middot; Geelong &amp; Bellarine</p>
   </div>
   <div style="background:#fff;border-radius:12px;padding:32px;border:1px solid #e5e7eb">
-    <h2 style="margin:0 0 8px;font-size:22px;color:#111827">Booking Confirmed! 🎉</h2>
-    <p style="margin:0 0 24px;color:#6b7280">Hey ${customerName}, your silent disco deposit is locked in. Get ready for an amazing event!</p>
+    <h2 style="margin:0 0 8px;font-size:22px;color:#111827">Booking Confirmed &#127881;</h2>
+    <p style="margin:0 0 24px;color:#6b7280">Hey ${esc(customerName)}, your silent disco deposit is locked in. Get ready for an amazing event!</p>
     <div style="background:#f9fafb;border-radius:8px;padding:20px;margin-bottom:24px">
       <table style="width:100%;border-collapse:collapse">
-        <tr><td style="padding:6px 0;color:#6b7280;font-size:14px">Event Date</td><td style="padding:6px 0;text-align:right;font-weight:600;color:#111827">${formattedDate}</td></tr>
-        <tr><td style="padding:6px 0;color:#6b7280;font-size:14px">Headsets</td><td style="padding:6px 0;text-align:right;font-weight:600;color:#111827">${headsetQty || 'As quoted'}</td></tr>
-        <tr><td style="padding:6px 0;color:#6b7280;font-size:14px">Location</td><td style="padding:6px 0;text-align:right;font-weight:600;color:#111827">${suburb || 'As discussed'}</td></tr>
-        <tr style="border-top:1px solid #e5e7eb"><td style="padding:12px 0 6px;color:#6b7280;font-size:14px;font-weight:600">Deposit Paid</td><td style="padding:12px 0 6px;text-align:right;font-weight:700;color:#059669;font-size:16px">$${amountPaid} AUD</td></tr>
-        <tr><td style="padding:6px 0;color:#6b7280;font-size:14px">Balance due before event</td><td style="padding:6px 0;text-align:right;font-weight:600;color:#111827">$${balanceDue} AUD</td></tr>
+        ${row('Event Date', esc(formattedDate))}
+        ${row('Headsets', esc(headsetQty || 'As quoted'))}
+        ${durLabel ? row('Hire length', esc(durLabel)) : ''}
+        ${row('Pickup / delivery', esc(delLabel))}
+        ${row('Location', esc(suburb || 'As discussed'))}
+        <tr style="border-top:1px solid #e5e7eb"><td style="padding:12px 0 6px;color:#6b7280;font-size:14px;font-weight:600">Deposit Paid</td><td style="padding:12px 0 6px;text-align:right;font-weight:700;color:#059669;font-size:16px">$${esc(amountPaid)} AUD</td></tr>
+        ${row('Balance due before event', '$' + esc(balanceDue) + ' AUD')}
       </table>
     </div>
     <p style="margin:0 0 16px;color:#374151;font-size:15px">Pickup or delivery timing will be confirmed by email before your event. Your setup guide (video + written) is sent ahead of the night.</p>
-    <p style="margin:0;color:#6b7280;font-size:14px">Questions? Just reply to this email — <a href="mailto:info@shushpartyhire.com.au" style="color:#7c3aed">info@shushpartyhire.com.au</a></p>
+    <p style="margin:0;color:#6b7280;font-size:14px">Questions? Just reply to this email &mdash; <a href="mailto:info@shushpartyhire.com.au" style="color:#7c3aed">info@shushpartyhire.com.au</a></p>
   </div>
   <p style="text-align:center;color:#9ca3af;font-size:12px;margin-top:24px">
-    Shush Party Hire · Geelong &amp; Bellarine Peninsula, VIC<br>
-    <a href="https://shushpartyhire.com.au/privacy.html" style="color:#9ca3af">Privacy Policy</a> · <a href="https://shushpartyhire.com.au/terms.html" style="color:#9ca3af">Terms &amp; Conditions</a>
+    Shush Party Hire &middot; Geelong &amp; Bellarine Peninsula, VIC<br>
+    <a href="https://shushpartyhire.com.au/privacy.html" style="color:#9ca3af">Privacy Policy</a> &middot; <a href="https://shushpartyhire.com.au/terms.html" style="color:#9ca3af">Terms &amp; Conditions</a>
   </p>
 </div>
 </body>
 </html>`;
 
-  // Todd notification email
-  const toddHtml = `<div style="font-family:sans-serif;max-width:500px">
-<h2>New Booking Deposit Received</h2>
-<p>Reply to this email to contact the customer directly.</p>
-<table>
-  <tr><td><b>Name:</b></td><td>${customerName}</td></tr>
-  <tr><td><b>Email:</b></td><td>${customerEmail}</td></tr>
-  <tr><td><b>Mobile:</b></td><td>${mobile || 'Not provided'}</td></tr>
-  <tr><td><b>Event Date:</b></td><td>${formattedDate}</td></tr>
-  <tr><td><b>Headsets:</b></td><td>${headsetQty}</td></tr>
-  <tr><td><b>Suburb:</b></td><td>${suburb}</td></tr>
-  <tr><td><b>Deposit Paid:</b></td><td>$${amountPaid} AUD</td></tr>
-  <tr><td><b>Balance Due:</b></td><td>$${balanceDue} AUD (before the event)</td></tr>
-  <tr><td><b>Stripe Session:</b></td><td>${sessionId}</td></tr>
+  const btn = (href, label, bg) => href ? `<a href="${href}" style="display:inline-block;margin:4px 6px 4px 0;padding:10px 16px;background:${bg};color:#fff;text-decoration:none;border-radius:8px;font-weight:700;font-size:14px">${label}</a>` : '';
+  const ownerHtml = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:520px;margin:0 auto;padding:16px;color:#111827">
+<h2 style="margin:0 0 4px">&#128176; New booking &mdash; ${esc(headsetQty)} headsets</h2>
+<p style="margin:0 0 16px;color:#6b7280">${esc(formattedDate)} &middot; $${esc(amountPaid)} deposit paid &middot; <b>$${esc(balanceDue)} still to collect</b></p>
+<table style="width:100%;border-collapse:collapse;background:#f9fafb;border-radius:8px;padding:12px">
+  ${row('Name', esc(customerName))}
+  ${row('Mobile', mobile ? `<a href="tel:${esc(mobile.replace(/\s/g, ''))}">${esc(mobile)}</a>` : 'Not provided')}
+  ${row('Email', `<a href="mailto:${esc(customerEmail)}">${esc(customerEmail)}</a>`)}
+  ${row('Event suburb', esc(suburb || '-'))}
+  ${row('Hire length', esc(durLabel || '-'))}
+  ${row('Pickup / delivery', esc(delLabel))}
+  ${row('Notes from customer', esc(notes || '-'))}
 </table>
+<p style="margin:16px 0 8px">${btn(calLink, 'Add to Google Calendar', '#7c3aed')}${btn(airtableLink, 'Open bookings (Airtable)', '#0e7490')}${btn(stripeLink, 'View payment (Stripe)', '#374151')}</p>
+<p style="margin:8px 0 0;color:#9ca3af;font-size:12px">Hit reply to email the customer directly. Stripe session: ${esc(sessionId)}</p>
 </div>`;
 
-  try {
-    // Send customer email
-    await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        from: `Shush Party Hire <${fromEmail}>`,
-        reply_to: 'info@shushpartyhire.com.au',
-        to: [customerEmail],
-        subject: `Booking Confirmed — ${formattedDate} | Shush Party Hire`,
-        html: customerHtml,
-      })
-    });
+  // Owner alert FIRST so a customer-email problem can never hide a booking
+  await sendResend(resendApiKey, {
+    from: `Shush Bookings <${fromEmail}>`,
+    reply_to: customerEmail || ownerEmail,
+    to: [ownerEmail],
+    subject: `New booking: ${headsetQty} headsets, ${shortDate} - ${customerName} ($${balanceDue} due)`,
+    html: ownerHtml,
+  }, 'owner alert');
 
-    // Send Todd notification
-    await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        from: `Shush Bookings <${fromEmail}>`,
-        reply_to: customerEmail,
-        to: [toddEmail],
-        subject: `New Booking: ${customerName} — ${formattedDate}`,
-        html: toddHtml,
-      })
-    });
-
-    console.log('Confirmation emails sent to', customerEmail, 'and', toddEmail);
-  } catch (emailErr) {
-    console.error('Email send failed (non-fatal):', emailErr.message);
+  if (customerEmail) {
+    await sendResend(resendApiKey, {
+      from: `Shush Party Hire <${fromEmail}>`,
+      reply_to: ownerEmail,
+      to: [customerEmail],
+      subject: `Booking Confirmed - ${formattedDate} | Shush Party Hire`,
+      html: customerHtml,
+    }, 'customer confirmation');
   }
 }
 
