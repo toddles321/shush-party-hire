@@ -237,15 +237,7 @@ async function sendConfirmationEmails({ resendApiKey, customerEmail, customerNam
     html: ownerHtml,
   }, 'owner alert');
 
-  if (customerEmail) {
-    await sendResend(resendApiKey, {
-      from: `Shush Party Hire <${fromEmail}>`,
-      reply_to: ownerEmail,
-      to: [customerEmail],
-      subject: `Booking Confirmed - ${formattedDate} | Shush Party Hire`,
-      html: customerHtml,
-    }, 'customer confirmation');
-  }
+  // No automatic customer email: follow-up is done personally from info@ (reply to the alert above).
 }
 
 // Stripe HMAC-SHA256 signature verification using Web Crypto API
