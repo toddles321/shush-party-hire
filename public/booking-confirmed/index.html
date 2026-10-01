@@ -182,7 +182,7 @@ h1{
   <div class="logo">Shush<em>.</em></div>
   <div class="check" aria-hidden="true">✓</div>
   <h1>You Are Booked In.</h1>
-  <p class="sub">Your $150 deposit has been received and your date is locked in. Todd will be in touch within a couple of hours to confirm all the details.</p>
+  <p class="sub">Your $150 deposit has been received and your date is locked in. A confirmation email with your booking details is on its way to you now.</p>
 
   <div class="summary" id="summary" aria-label="Booking summary">
     <h3>Your Booking Details</h3>
@@ -191,14 +191,14 @@ h1{
 
   <div class="deposit-note" role="note">
     <strong>Deposit received: $150 AUD ✓</strong><br>
-    Your remaining balance will be confirmed when Todd calls. It is due before your event date.
+    Your remaining balance is shown in your booking summary above and in your confirmation email. It is due before your event date.
   </div>
 
   <div class="what-next" aria-label="What happens next">
     <h3>What Happens Next</h3>
     <div class="next-item">
       <div class="next-n" aria-hidden="true">1</div>
-      <div class="next-t"><strong>Todd calls you</strong> — usually within a couple of hours, always within 24 hours. He will confirm your booking and answer any questions.</div>
+      <div class="next-t"><strong>Check your inbox</strong> — your confirmation email has your date, headset count and balance due. Reply to it with any questions.</div>
     </div>
     <div class="next-item">
       <div class="next-n" aria-hidden="true">2</div>
@@ -210,7 +210,7 @@ h1{
     </div>
     <div class="next-item">
       <div class="next-n" aria-hidden="true">4</div>
-      <div class="next-t"><strong>Dance.</strong> Todd is available on the night at booking@shushpartyhire.com.au if you need anything.</div>
+      <div class="next-t"><strong>Dance.</strong> Your setup guide covers everything you need on the night. Questions beforehand? Email info@shushpartyhire.com.au.</div>
     </div>
   </div>
 
@@ -219,7 +219,7 @@ h1{
   </div>
 
   <p class="footer-note">
-    Questions? Email <a href="mailto:booking@shushpartyhire.com.au">booking@shushpartyhire.com.au</a><br>
+    Questions? Email <a href="mailto:info@shushpartyhire.com.au">info@shushpartyhire.com.au</a><br>
     Shush Party Hire · Point Lonsdale VIC 3225 · ABN 81 343 920 567
   </p>
 </div>
@@ -233,14 +233,12 @@ try {
     var summary = document.getElementById('summary');
     var rows = document.getElementById('summaryRows');
     var durLabels = {'1':'1 Night','2':'2–3 Nights','7':'1 Week'};
-    var ipodLabels = {'0':'No iPods','19':'1 iPod','35':'2 iPods','49':'3 iPods'};
     var delLabel = data.delivery === '40' ? 'Delivery ($40)' : 'Free Pickup';
     var items = [
       ['Event Date', data.date],
       ['Headsets', data.qty],
       ['Duration', durLabels[data.duration] || data.duration],
       ['Delivery', delLabel],
-      ['Music iPods', ipodLabels[data.ipod] || 'None'],
       ['Package Total', '$' + parseInt(data.total).toLocaleString('en-AU')],
       ['Deposit Paid', '$150 AUD ✓'],
     ];
