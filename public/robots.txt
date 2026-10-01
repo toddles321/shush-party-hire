@@ -1,10 +1,19 @@
 User-agent: *
 Allow: /
+Disallow: /booking-confirmed/
 
-User-agent: GPTBot
-Disallow: /
+# AI search assistants may cite and link to us (helps people find Shush via ChatGPT/Perplexity)
+User-agent: OAI-SearchBot
+Allow: /
 
 User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Bulk AI-training crawlers stay blocked
+User-agent: GPTBot
 Disallow: /
 
 User-agent: CCBot
