@@ -29,7 +29,7 @@
   "url":"https://shushpartyhire.com.au",
   "image":"https://shushpartyhire.com.au/images/og-image.jpg",
   
-  "email":"booking@shushpartyhire.com.au",
+  "email":"info@shushpartyhire.com.au",
   "address":{"@type":"PostalAddress","streetAddress":"32 Saltbush Circuit","addressLocality":"Point Lonsdale","addressRegion":"VIC","postalCode":"3225","addressCountry":"AU"},
   "geo":{"@type":"GeoCoordinates","latitude":-38.2833,"longitude":144.6000},
   "areaServed":["Geelong","Ocean Grove","Barwon Heads","Torquay","Point Lonsdale","Queenscliff","Portarlington","Drysdale","Leopold","Lara","Armstrong Creek","Highton","Belmont","Newtown","Waurn Ponds"],
@@ -94,8 +94,9 @@ window.SHUSH_GOOGLE_ADS_ID = '';    /* e.g. 'AW-123456789' from ads.google.com �
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="preload" as="image" href="/images/hero.webp" media="(min-width: 769px)" fetchpriority="high">
 <link rel="preload" as="image" href="/images/hero-mobile.webp" media="(max-width: 768px)" fetchpriority="high">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"><link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet"></noscript>
 <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
 <link rel="apple-touch-icon" href="/images/favicon.png">
 <style>
@@ -173,7 +174,7 @@ nav.scrolled{
   padding-top:.8rem;padding-bottom:.8rem;
 }
 .nav-logo{
-  font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-.03em;
+  font-family:var(--font-display);font-weight:800;font-size:1.35rem;letter-spacing:-.03em;
   min-height:44px;display:inline-flex;align-items:center;flex-shrink:0;
 }
 .nav-logo em{color:var(--cyan);font-style:normal;text-shadow:0 0 16px rgba(55,230,255,.6)}
@@ -548,27 +549,6 @@ nav.scrolled{
 .calc-select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(55,230,255,.15)}
 .avail-warning{font-size:.78rem;color:var(--gold);margin-top:.5rem;padding:.5rem .9rem;background:rgba(251,191,36,.06);border-radius:8px;border:1px solid rgba(251,191,36,.15)}
 .calc-divider{height:1px;background:var(--line);margin:1.6rem 0}
-.ipod-options{display:flex;flex-direction:column;gap:.6rem}
-.ipod-opt{
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  padding:.95rem 1.1rem;border-radius:var(--r-s);cursor:pointer;
-  border:1px solid var(--line);background:var(--bg-2);
-  transition:border-color .3s,background .3s;
-}
-.ipod-opt:hover{border-color:var(--line-2)}
-.ipod-opt:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
-.ipod-opt.active{border-color:rgba(55,230,255,.55);background:rgba(55,230,255,.06)}
-.ipod-left{display:flex;align-items:center;gap:.85rem;min-width:0}
-.ipod-radio{
-  width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line-2);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .3s;
-}
-.ipod-opt.active .ipod-radio{border-color:var(--cyan)}
-.ipod-radio-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);opacity:0;transition:opacity .25s}
-.ipod-opt.active .ipod-radio-dot{opacity:1}
-.ipod-name{font-size:.88rem;font-weight:700}
-.ipod-desc{font-size:.76rem;color:var(--ink-3);margin-top:.1rem}
-.ipod-price{font-size:.85rem;font-weight:800;color:var(--cyan);white-space:nowrap}
 
 /* Price card */
 .price-card{
@@ -779,7 +759,7 @@ nav.scrolled{
 footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem clamp(1.2rem,4vw,2.5rem) 2.5rem}
 .footer-inner{max-width:1200px;margin:0 auto}
 .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:3rem}
-.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:-.03em;margin-bottom:.7rem}
+.footer-logo{font-family:var(--font-display);font-weight:800;font-size:1.5rem;letter-spacing:-.03em;margin-bottom:.7rem}
 .footer-logo em{color:var(--cyan);font-style:normal;text-shadow:0 0 14px rgba(55,230,255,.5)}
 .footer-blurb{font-size:var(--t-small);color:var(--ink-3);max-width:280px;line-height:1.7}
 .footer-abn{font-size:.76rem;color:var(--ink-3);margin-top:1rem}
@@ -967,6 +947,145 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   .wr .w>span{transform:none;transition:none}
   #secureBtn:not(:disabled){animation:none}
 }
+/* ════════════════════════════════════════════════════════════
+   DEVICE OPTIMISATION PASS — horizontal lock, tap targets,
+   legibility, mobile performance, desktop breathing room
+   ════════════════════════════════════════════════════════════ */
+/* Hard horizontal lock: clip (not hidden) so no phantom scroll container is created */
+html,body{overflow-x:clip}
+@supports not (overflow-x:clip){html,body{overflow-x:hidden}}
+/* Contain the decorative orbs that bleed 160px past the viewport edge */
+#why,#events,#story,#contact,.video-section,.section-full{overflow-x:clip}
+/* Anything wider than its container can never push the page sideways */
+img,video,svg,iframe,table,pre{max-width:100%}
+.section,.section-inner,.calc-layout,.price-card,.faq-cols{min-width:0}
+/* Long emails/URLs wrap instead of overflowing on narrow phones */
+.cc-val,.faq-a,.wi-a,.footer-col,.biz-line,.price-note{overflow-wrap:anywhere}
+
+/* Tap targets ≥44px on every interactive control */
+.btn-primary,.btn-ghost,.nav-book,.sticky-btn,.mob-menu .mob-book,.calc-select,.calc-date-input,.guest-helper input,.hamburger{min-height:44px}
+.faq-q{min-height:48px}
+.nav-centre a{min-height:40px;display:inline-flex;align-items:center}
+/* Touch devices & phones: every link/icon is a ≥44×44 hit area (WCAG 2.5.5 / Apple HIG) */
+@media(max-width:768px),(pointer:coarse){
+  .footer-col a{display:flex;align-items:center;min-height:44px;padding-block:0}
+  .cc-val a,.mob-contact a{display:inline-flex;align-items:center;min-height:44px}
+  .footer-socials{gap:.5rem}
+  .footer-socials a{width:44px;height:44px;min-width:44px}
+  .mob-menu a{min-height:48px;display:flex;align-items:center;justify-content:center;padding:0 1rem}
+  .mob-menu .mob-book{min-height:52px}
+  .nav-logo{min-height:44px}
+  .faq-q{min-height:52px}
+  .sticky-btn{min-height:48px}
+  .btn-primary,.btn-ghost{min-height:52px}
+  .calc-select,.calc-date-input{min-height:52px}
+  .guest-helper input{min-height:48px}
+  .ch-card,.event-tile,.step{min-height:44px}
+}
+
+/* Native date input: iOS centres the value and hides placeholder text — make it read like a field */
+.calc-date-input{-webkit-appearance:none;appearance:none;min-height:48px;line-height:1.3}
+.calc-date-input::-webkit-date-and-time-value{text-align:left;min-height:1.3em}
+.calc-date-input::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.75;filter:invert(1)}
+
+/* Headlines never orphan a single word on a line */
+.h2,.hero h1,.after-card h3,.wi-q{text-wrap:balance}
+p,.lead,.faq-a{text-wrap:pretty}
+
+/* ── Phones (≤768px) ── */
+@media(max-width:768px){
+  /* Legibility: nothing the customer must read drops below 16px */
+  .after-card p,.ws-card p,.wi-a,.faq-a,.t-quote,.video-note,.price-line,.calc-group label,.guest-helper label{font-size:1rem}
+  .trust-cluster .trust-item,.price-perhead,.price-note,.avail-badge,.gh-result,.avail-warning,.date-required-msg{font-size:.9rem}
+  .sticky-label{font-size:.78rem}
+  .lead{font-size:1.06rem}
+  /* Section rhythm tightens on a phone — less dead scroll between sections */
+  .section,.section-full{padding-top:clamp(3.6rem,12vw,5rem);padding-bottom:clamp(3.6rem,12vw,5rem)}
+  .hero{padding-top:6.5rem;padding-bottom:4.5rem}
+  .after-grid,.whatif-grid{margin-top:2.2rem}
+  /* Pricing: full-width date field, roomier controls */
+  .calc-date-input{max-width:none}
+  .date-input-wrap{flex-direction:column;align-items:stretch}
+  .avail-badge{justify-content:center;min-height:40px}
+  .price-card{border-radius:var(--r-m)}
+  /* Performance: backdrop blur on scrolling layers janks on mid-range phones */
+  .price-card{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(12,14,22,.97)}
+  .btn-ghost{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(255,255,255,.06)}
+  nav.scrolled{backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2);background:rgba(5,6,11,.92)}
+  .sticky-bar{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(5,6,11,.96)}
+  #why::before,#events::before,#story::before,#contact::before{filter:none;width:360px;height:360px;animation:none}
+  .hero-img{transition:opacity .9s ease;transform:none}
+  .hero-img.loaded{transform:none}
+  /* Sticky bottom bar must never hide the real Secure button or the footer */
+  .after-grid,footer{scroll-margin-bottom:5rem}
+  .wa-float{display:none}
+}
+/* ── Small phones (≤400px: iPhone SE/mini, compact Androids) ── */
+@media(max-width:400px){
+  :root{--t-hero:clamp(2.5rem,13vw,3.2rem);--t-h2:clamp(1.75rem,8.5vw,2.2rem)}
+  .section,.section-full,.hero{padding-left:1rem;padding-right:1rem}
+  .whatif-grid,.testimonials-grid{margin-inline:-1rem;padding-inline:1rem}
+  .price-card{padding:1.3rem 1.1rem}
+  .hero-stats{gap:.8rem 0}
+  .sticky-bar{padding-left:1rem;padding-right:1rem;gap:.7rem}
+  .sticky-btn{padding:.8rem 1.1rem;font-size:.8rem}
+  .events-grid{grid-template-columns:1fr 1fr}
+}
+/* ── Tablets & small laptops (769–1100px): two-column pricing stays side by side ── */
+@media(min-width:769px) and (max-width:1100px){
+  .calc-layout{grid-template-columns:1fr 340px;gap:1.6rem;align-items:start}
+  .price-card{position:sticky;top:90px}
+  .after-grid{grid-template-columns:1fr 1fr}
+  .after-grid .after-card:last-child{grid-column:1/-1}
+}
+/* ── Desktop (≥1200px): wider measure and generous rhythm ── */
+@media(min-width:1200px){
+  .section,.section-inner{max-width:1240px}
+  .lead{max-width:680px}
+  .calc-layout{gap:3rem}
+}
+/* ── Large desktop (≥1600px): stop the hero image from going soft, cap line lengths ── */
+@media(min-width:1600px){
+  .section,.section-inner{max-width:1320px}
+  .hero-img{background-size:cover}
+  .faq-cols{max-width:1100px;margin-inline:auto}
+}
+/* Hover affordances only where a hover exists (no sticky hover states on touch) */
+@media(hover:none){
+  .after-card:hover,.wi-card:hover{transform:none}
+  .btn-primary:hover{transform:none}
+}
+/* Tablet (769–960px): nav was 19px wider than the screen and clipped the Book button */
+@media(min-width:769px) and (max-width:960px){
+  .nav-centre{gap:0}
+  .nav-centre a{padding:.45rem .6rem}
+  .nav-centre li:nth-child(3){display:none}
+  nav{gap:.6rem}
+}
+/* Hero stats: tidy 2x2 grid on phones/tablets instead of an orphaned 4th stat */
+@media(max-width:960px){
+  .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem 0;max-width:520px;margin-inline:auto}
+  .stat{border-right:none;padding:.4rem .6rem}
+  .stat:nth-child(odd){border-right:1px solid rgba(255,255,255,.1)}
+}
+/* Smallest labels lifted to ≥12.8px for legibility on phones */
+@media(max-width:768px){
+  .hero-pill,.stat-l,.mi,.sticky-label,.eyebrow{font-size:.8rem}
+  .sticky-btn{font-size:.9rem}
+}
+/* Guest-count helper: placeholder was clipped at 92px */
+.guest-helper input{width:110px}
+.sticky-label{white-space:nowrap}
+/* Keyboard focus: one consistent, visible ring on every control */
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.calc-select:focus-visible,.calc-date-input:focus-visible,.guest-helper input:focus-visible{outline-offset:1px}
+/* Print: clean contact/quote printout */
+@media print{
+  nav,.sticky-bar,.wa-float,.mob-menu,.scroll-progress,.hero-grain,video,.hero-img{display:none!important}
+  *{color:#000!important;background:none!important;box-shadow:none!important;text-shadow:none!important}
+  .reveal,.wr .w>span{opacity:1!important;transform:none!important}
+  a[href^="mailto:"]::after{content:" (" attr(href) ")"}
+}
 </style>
 </head>
 
@@ -979,7 +1098,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
 <div class="sticky-bar" id="stickyBar" aria-label="Booking summary">
   <div class="sticky-price-wrap">
     <div class="sticky-price" id="stickyPrice">$319</div>
-    <div class="sticky-label">Secure with $150 deposit</div>
+    <div class="sticky-label">$150 deposit to book</div>
   </div>
   <a href="#pricing" class="sticky-btn" id="stickyBtn">Secure My Date</a>
 </div>
@@ -994,7 +1113,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   <div class="mob-divider"></div>
   <a href="#pricing" class="mob-book" onclick="closeMob()">Secure My Date</a>
   <div class="mob-contact">
-    <a href="mailto:booking@shushpartyhire.com.au">booking@shushpartyhire.com.au</a>
+    <a href="mailto:info@shushpartyhire.com.au">info@shushpartyhire.com.au</a>
   </div>
 </div>
 
@@ -1094,7 +1213,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       </div>
     </div>
     <div class="why-img-wrap reveal reveal-d2">
-      <img class="plx" src="/images/wedding-event.webp" alt="Guests dancing at a wedding with silent disco headsets lit up in three colours" loading="lazy" decoding="async" width="700" height="500">
+      <img class="plx" src="/images/wedding-event-800.webp" srcset="/images/wedding-event-480.webp 480w, /images/wedding-event-800.webp 800w, /images/wedding-event.webp 1400w" sizes="(min-width:1101px) 560px, 100vw" alt="Guests dancing at a wedding with silent disco headsets lit up in three colours" loading="lazy" decoding="async" width="700" height="500">
     </div>
   </div>
 </section>
@@ -1109,7 +1228,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     <div class="step reveal reveal-d1" role="listitem">
       <span class="step-num" aria-hidden="true">STEP 01</span>
       <h3>Build Your Package</h3>
-      <p>Pick your date, choose your headset quantity, duration, delivery and iPod options. Your price updates live. Pay a $150 deposit to lock it in — done in two minutes.</p>
+      <p>Pick your date, choose your headset quantity, duration and delivery. Your price updates live. Pay a $150 deposit to lock it in — done in two minutes.</p>
     </div>
     <div class="step reveal reveal-d2" role="listitem">
       <span class="step-num" aria-hidden="true">STEP 02</span>
@@ -1224,7 +1343,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
         Your browser doesn't support video. The written guide is included with every hire.
       </video>
     </div>
-    <p class="video-note">Every hire also includes this as a written step-by-step guide — plus Todd on email throughout your event.</p>
+    <p class="video-note">Every hire also includes this as a written step-by-step guide, so you can run the whole night yourself with confidence.</p>
   </div>
 </section>
 
@@ -1234,7 +1353,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     <div class="centred reveal">
       <div class="eyebrow" aria-hidden="true">Transparent pricing</div>
       <h2 class="h2" id="pricing-heading">Build your package <span class="serif">in two minutes.</span></h2>
-      <p class="lead">Select your date to check availability, then choose your headsets, duration and extras. Price updates instantly. Secure with a $150 deposit — no hidden fees.</p>
+      <p class="lead">Select your date to check availability, then choose your headsets, duration and delivery. Price updates instantly. Secure with a $150 deposit — no hidden fees.</p>
       <div class="price-anchor"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h.01M6.5 9.5v5M10 6.5v11M13.5 8.5v7M17 5.5v13M20.5 10v4"/></svg> <span>Fifty headsets — <span class="serif">a whole silent disco</span> — from $6.38 per guest.</span></div>
       <p class="calc-urgent"><span class="urgency-dot" aria-hidden="true"></span> Summer dates filling fast — especially December and January</p>
     </div>
@@ -1292,38 +1411,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
           </div>
         </div>
 
-        <div class="calc-divider" role="separator"></div>
-        <h3><span class="step-chip">3</span> Music iPods <span style="text-transform:none;letter-spacing:0;font-weight:600">(optional)</span></h3>
-        <div class="ipod-options" role="radiogroup" aria-label="Music iPod options">
-          <div class="ipod-opt active" data-ipod="0" role="radio" aria-checked="true" tabindex="0">
-            <div class="ipod-left">
-              <div class="ipod-radio" aria-hidden="true"><div class="ipod-radio-dot"></div></div>
-              <div><div class="ipod-name">No iPods — I will supply my own device</div><div class="ipod-desc">Connect any phone or laptop to the transmitters</div></div>
-            </div>
-            <div class="ipod-price">Included</div>
-          </div>
-          <div class="ipod-opt" data-ipod="19" role="radio" aria-checked="false" tabindex="0">
-            <div class="ipod-left">
-              <div class="ipod-radio" aria-hidden="true"><div class="ipod-radio-dot"></div></div>
-              <div><div class="ipod-name">1 iPod — one channel sorted</div><div class="ipod-desc">Pre-loaded curated playlist for one channel</div></div>
-            </div>
-            <div class="ipod-price">+$19</div>
-          </div>
-          <div class="ipod-opt" data-ipod="35" role="radio" aria-checked="false" tabindex="0">
-            <div class="ipod-left">
-              <div class="ipod-radio" aria-hidden="true"><div class="ipod-radio-dot"></div></div>
-              <div><div class="ipod-name">2 iPods — two channels sorted</div><div class="ipod-desc">Two curated playlists across two channels</div></div>
-            </div>
-            <div class="ipod-price">+$35</div>
-          </div>
-          <div class="ipod-opt" data-ipod="49" role="radio" aria-checked="false" tabindex="0">
-            <div class="ipod-left">
-              <div class="ipod-radio" aria-hidden="true"><div class="ipod-radio-dot"></div></div>
-              <div><div class="ipod-name">3 iPods — all three channels ★</div><div class="ipod-desc">Three distinct playlists, one per channel — most popular</div></div>
-            </div>
-            <div class="ipod-price">+$49</div>
-          </div>
-        </div>
       </div>
 
       <!-- RIGHT: Price card -->
@@ -1335,7 +1422,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
         </div>
         <div class="price-lines" role="list">
           <div class="price-line" role="listitem"><span id="baseLabel">50 headsets × 1 night</span><span id="baseVal">$319</span></div>
-          <div class="price-line" id="iPodLine" role="listitem" style="display:none"><span>Music iPods</span><span id="iPodVal"></span></div>
           <div class="price-line" id="delivLine" role="listitem" style="display:none"><span>Delivery</span><span>$40</span></div>
           <div class="price-line total" role="listitem"><span>Total (inc. GST)</span><span id="totalVal">$319</span></div>
         </div>
@@ -1343,7 +1429,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
           <div class="trust-item"><span class="trust-check" aria-hidden="true">✓</span> $300 bond fully refundable</div>
           <div class="trust-item"><span class="trust-check" aria-hidden="true">✓</span> Public liability insurance held</div>
           <div class="trust-item"><span class="trust-check" aria-hidden="true">✓</span> ABN 81 343 920 567 — registered business</div>
-          <div class="trust-item"><span class="trust-check" aria-hidden="true">✓</span> Todd available on the night</div>
+          <div class="trust-item"><span class="trust-check" aria-hidden="true">✓</span> Setup video + written guide included</div>
         </div>
         <div id="dateRequiredMsg" class="date-required-msg">
           Pick your date above to unlock booking
@@ -1367,15 +1453,15 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
 <section class="section" aria-labelledby="after-heading">
   <div class="reveal">
     <div class="eyebrow" aria-hidden="true">After you book</div>
-    <h2 class="h2" id="after-heading">No mystery, <span class="serif">no waiting.</span></h2>
+    <h2 class="h2" id="after-heading">No mystery, <span class="serif">no surprises.</span></h2>
     <p class="lead">Here's exactly what to expect after your deposit lands.</p>
   </div>
   <div class="after-grid" role="list">
     <div class="after-card reveal reveal-d1" role="listitem">
       <span class="after-num" aria-hidden="true">01</span>
-      <h3>Todd Contacts You</h3>
-      <p>Within a couple of hours of your booking — always within 24 hours — Todd emails you to confirm your details, answer any questions and lock in pickup or delivery time.</p>
-      <span class="after-tag">Within 2 hours</span>
+      <h3>Confirmation In Your Inbox</h3>
+      <p>Your booking confirmation is emailed to you straight away with your date, headset count and the balance due. Pickup or delivery timing is confirmed by email before your event.</p>
+      <span class="after-tag">Instantly</span>
     </div>
     <div class="after-card reveal reveal-d2" role="listitem">
       <span class="after-num" aria-hidden="true">02</span>
@@ -1386,7 +1472,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     <div class="after-card reveal reveal-d3" role="listitem">
       <span class="after-num" aria-hidden="true">03</span>
       <h3>Equipment Delivered or Ready</h3>
-      <p>Every headset arrives pre-charged, tested and paired. Collect free from Point Lonsdale or receive flat $40 delivery anywhere in our zone. Todd is available on the night if you need anything.</p>
+      <p>Every headset arrives pre-charged, tested and paired. Collect free from Point Lonsdale or receive flat $40 delivery anywhere in our zone.</p>
       <span class="after-tag">Event day</span>
     </div>
   </div>
@@ -1411,7 +1497,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       </div>
       <div class="wi-card reveal reveal-d1" role="listitem">
         <div class="wi-q">"What if something stops working on the night?"</div>
-        <p class="wi-a"><strong>Email Todd directly at booking@shushpartyhire.com.au.</strong> Not a help desk. A real local who replies fast and talks you through it. Most issues resolve in minutes.</p>
+        <p class="wi-a"><strong>Start with the setup guide — it covers almost every hiccup</strong> (a flat transmitter, a wrong input, a headset on the wrong channel). Still stuck? Email info@shushpartyhire.com.au with your booking date and we will help you get sorted.</p>
       </div>
       <div class="wi-card reveal reveal-d2" role="listitem">
         <div class="wi-q">"What if my venue has a noise curfew?"</div>
@@ -1496,7 +1582,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
 <section class="section" id="story" aria-labelledby="story-heading">
   <div class="todd-wrap">
     <div class="todd-visual reveal">
-      <img class="plx" src="/images/house-party.webp" alt="Friends dancing at a house party with silent disco headsets" loading="lazy" decoding="async" width="700" height="440">
+      <img class="plx" src="/images/house-party-800.webp" srcset="/images/house-party-480.webp 480w, /images/house-party-800.webp 800w, /images/house-party.webp 1264w" sizes="(min-width:1101px) 560px, 100vw" alt="Friends dancing at a house party with silent disco headsets" loading="lazy" decoding="async" width="700" height="440">
       <div class="todd-quote serif" aria-hidden="true">"Everyone deserves to feel that kind of magic."</div>
     </div>
     <div class="todd-text reveal reveal-d2">
@@ -1525,7 +1611,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     <div class="ws-card reveal reveal-d3" role="listitem"><h4>Zero Noise Complaints</h4><p>Music stays inside the headsets. Perfect for noise-restricted venues, residential areas, holiday houses and aged care.</p></div>
     <div class="ws-card reveal reveal-d1" role="listitem"><h4>Flat $40 Delivery</h4><p>No zone calculations, no distance surcharges. One flat rate covers the entire Bellarine, Surf Coast and greater Geelong.</p></div>
     <div class="ws-card reveal reveal-d2" role="listitem"><h4>Plug and Play Simple</h4><p>Every headset pre-charged, tested and paired. Connect your phone to a transmitter and the system is live in minutes.</p></div>
-    <div class="ws-card reveal reveal-d3" role="listitem"><h4>Real Person, Real Support</h4><p>Todd is available throughout your event at booking@shushpartyhire.com.au. One message — not a help desk, not a ticket queue, not a chatbot.</p></div>
+    <div class="ws-card reveal reveal-d3" role="listitem"><h4>Local, Not a Call Centre</h4><p>Shush is a Point Lonsdale business, not a national hire chain. Email info@shushpartyhire.com.au and a real local reads it — no ticket queue, no chatbot.</p></div>
   </div>
 </section>
 
@@ -1535,7 +1621,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     <div class="centred reveal">
       <div class="eyebrow" aria-hidden="true">Common questions</div>
       <h2 class="h2" id="faq-heading">Frequently asked <span class="serif">questions.</span></h2>
-      <p class="lead">Everything you need to know. If your question is not here, email Todd at booking@shushpartyhire.com.au.</p>
+      <p class="lead">Everything you need to know. If your question is not here, email info@shushpartyhire.com.au.</p>
     </div>
     <div class="faq-cols">
       <div class="faq-item reveal">
@@ -1552,7 +1638,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       </div>
       <div class="faq-item reveal">
         <button class="faq-q" aria-expanded="false">Do I need to supply my own music? <span class="faq-x" aria-hidden="true">+</span></button>
-        <div class="faq-a">By default, yes — connect your own phone, laptop or tablet to the transmitter via the included cable. Alternatively, add our music iPods as an optional extra. We offer one, two or three iPods pre-loaded with curated playlists.</div>
+        <div class="faq-a">Yes — connect your own phone, laptop or tablet to a transmitter with the included cable (Lightning and USB-C adapters are in the box). Any streaming app or playlist works, and every channel runs from its own device, so three friends can each DJ a channel.</div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-q" aria-expanded="false">Can I use this outdoors or at the beach? <span class="faq-x" aria-hidden="true">+</span></button>
@@ -1595,10 +1681,10 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   <div class="centred reveal">
     <div class="eyebrow" aria-hidden="true">Get in touch</div>
     <h2 class="h2" id="contact-heading">Questions? <span class="serif">Just ask.</span></h2>
-    <p class="lead">Most enquiries answered within a few hours — email Todd directly.</p>
+    <p class="lead">Email is the best way to reach us — include your event date and rough guest count and we will come back with everything you need.</p>
   </div>
   <div class="contact-cards reveal" role="list">
-    <div class="cc" role="listitem"><span class="cc-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4.5 7.5 7.5 5.5 7.5-5.5"/></svg></span><div class="cc-lbl">Email</div><div class="cc-val"><a href="mailto:booking@shushpartyhire.com.au">booking@shushpartyhire.com.au</a></div></div>
+    <div class="cc" role="listitem"><span class="cc-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4.5 7.5 7.5 5.5 7.5-5.5"/></svg></span><div class="cc-lbl">Email</div><div class="cc-val"><a href="mailto:info@shushpartyhire.com.au">info@shushpartyhire.com.au</a></div></div>
     <div class="cc" role="listitem"><span class="cc-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.6" cy="7.4" r="1" fill="currentColor" stroke="none"/></svg></span><div class="cc-lbl">Instagram</div><div class="cc-val"><a href="https://instagram.com/shushpartyhire" target="_blank" rel="noopener noreferrer">@shushpartyhire</a></div></div>
     <div class="cc" role="listitem"><span class="cc-icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.2a6.5 6.5 0 1 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.2"/></svg></span><div class="cc-lbl">Pickup Location</div><div class="cc-val">Point Lonsdale, VIC 3225</div></div>
   </div>
@@ -1641,7 +1727,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       </div>
       <div class="footer-col">
         <h5>Contact</h5>
-                <a href="mailto:booking@shushpartyhire.com.au">booking@shushpartyhire.com.au</a>
+                <a href="mailto:info@shushpartyhire.com.au">info@shushpartyhire.com.au</a>
         <a href="https://instagram.com/shushpartyhire" target="_blank" rel="noopener noreferrer">@shushpartyhire</a>
       </div>
     </div>
@@ -1669,7 +1755,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   var MAX_HEADSETS = 400;
   var availableHeadsets = MAX_HEADSETS;
   var availCheckTimer = null;
-  var selectedIPod = 0;
   var dateSelected = false;
 
   /* ── Utility: format AUD ───────────────────────────────── */
@@ -1687,8 +1772,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
   var perHead     = document.getElementById('perHead');
   var baseLabel   = document.getElementById('baseLabel');
   var baseVal     = document.getElementById('baseVal');
-  var iPodLine    = document.getElementById('iPodLine');
-  var iPodVal     = document.getElementById('iPodVal');
   var delivLine   = document.getElementById('delivLine');
   var totalVal    = document.getElementById('totalVal');
   var balanceVal  = document.getElementById('balanceVal');
@@ -1709,7 +1792,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     var mult     = MULTS[calcDur.value] || 1;
     var delivery = parseInt(calcDel.value) || 0;
     var base     = Math.round((PRICES[qty] || 319) * mult);
-    var total    = base + delivery + selectedIPod;
+    var total    = base + delivery;
     var pph      = (total / qty).toFixed(2);
     var durLbl   = calcDur.value === '7' ? '1 week' : calcDur.value === '2' ? '2–3 nights' : '1 night';
     var nightLbl = calcDur.value === '7' ? '1 week' : calcDur.value === '2' ? '2–3 nights' : '1 night';
@@ -1721,12 +1804,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     totalVal.textContent  = fmt(total);
     balanceVal.textContent = fmt(total - DEPOSIT);
 
-    if (selectedIPod > 0) {
-      iPodLine.style.display = 'flex';
-      iPodVal.textContent = fmt(selectedIPod);
-    } else {
-      iPodLine.style.display = 'none';
-    }
     delivLine.style.display = delivery > 0 ? 'flex' : 'none';
 
     if (stickyPrice) stickyPrice.textContent = fmt(total);
@@ -1839,24 +1916,6 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
     if (el) el.addEventListener('change', updatePrice);
   });
 
-  /* ── iPod selection ────────────────────────────────────── */
-  document.querySelectorAll('.ipod-opt').forEach(function(opt) {
-    function selectIPod() {
-      document.querySelectorAll('.ipod-opt').forEach(function(o) {
-        o.classList.remove('active');
-        o.setAttribute('aria-checked', 'false');
-      });
-      opt.classList.add('active');
-      opt.setAttribute('aria-checked', 'true');
-      selectedIPod = parseInt(opt.dataset.ipod) || 0;
-      updatePrice();
-    }
-    opt.addEventListener('click', selectIPod);
-    opt.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectIPod(); }
-    });
-  });
-
   /* ── Guest count helper ────────────────────────────────── */
   var guestInput  = document.getElementById('guestCount');
   var guestResult = document.getElementById('guestResult');
@@ -1866,7 +1925,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       var g = parseInt(this.value);
       if (!g || g < 1) { guestResult.textContent = ''; return; }
       if (g > 400) {
-        guestResult.textContent = 'Over 400? Email booking@shushpartyhire.com.au';
+        guestResult.textContent = 'Over 400? Email info@shushpartyhire.com.au';
         return;
       }
       var pick = TIERS.find(function(t) { return t >= g; }) || 400;
@@ -1908,24 +1967,23 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       var qty      = calcQty.value;
       var duration = calcDur.value;
       var delivery = calcDel.value;
-      var ipod     = selectedIPod.toString();
       var date     = calcDate ? calcDate.value : '';
       var mult     = MULTS[duration] || 1;
       var base     = Math.round((PRICES[parseInt(qty)] || 319) * mult);
-      var total    = base + parseInt(delivery) + selectedIPod;
+      var total    = base + parseInt(delivery);
 
       /* Store for confirmation page */
       try {
         sessionStorage.setItem('shush_pkg', JSON.stringify({
           qty: qty, duration: duration, delivery: delivery,
-          ipod: ipod, date: date, total: total
+          date: date, total: total
         }));
       } catch(e) {}
 
       /* Build query string to pass to checkout */
       var params = new URLSearchParams({
         qty: qty, duration: duration, delivery: delivery,
-        ipod: ipod, date: date, total: total
+        date: date, total: total
       });
 
       /* Show loading state */
@@ -1939,12 +1997,13 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
           headsetQty: qty,
           duration: duration,
           delivery: delivery,
-          iPodOption: ipod,
           eventDate: date,
           packagePrice: total
         })
       })
-      .then(function(r) { return r.json(); })
+      .then(function(r) {
+        return r.json().catch(function() { throw new Error('The booking server did not respond (error ' + r.status + '). Please try again in a minute or email info@shushpartyhire.com.au.'); });
+      })
       .then(function(data) {
         if (data.url) {
           window.location.href = data.url;
@@ -1955,7 +2014,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       .catch(function(err) {
         secureBtn.textContent = 'Secure My Date — $150 Deposit';
         secureBtn.disabled = false;
-        alert('Something went wrong. Please email booking@shushpartyhire.com.au.');
+        alert(err && err.message && err.message !== 'Checkout failed' ? err.message : 'Something went wrong. Please email info@shushpartyhire.com.au.');
       });
     });
   }
@@ -2044,7 +2103,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:4.5rem cl
       mx = e.clientX; my = e.clientY;
       cur.style.left = mx + 'px'; cur.style.top = my + 'px';
     });
-    document.querySelectorAll('a,button,.ipod-opt,.faq-q,.event-tile,.step,.spec-card,.wi-card,.ws-card,.cc,.trusted-logo').forEach(function(el) {
+    document.querySelectorAll('a,button,.faq-q,.event-tile,.step,.spec-card,.wi-card,.ws-card,.cc,.trusted-logo').forEach(function(el) {
       el.addEventListener('mouseenter', function() { cur.classList.add('hov'); curRing.classList.add('hov'); });
       el.addEventListener('mouseleave', function() { cur.classList.remove('hov'); curRing.classList.remove('hov'); });
     });
