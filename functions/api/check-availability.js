@@ -19,7 +19,8 @@ export async function onRequestGet(context) {
 
     // Query Airtable for confirmed bookings on this date
     const filterFormula = encodeURIComponent(
-      `AND({Event Date}="${date}", OR({Status}="Confirmed", {Status}="Deposit Pending"))`
+      `AND({Event Date}="${date}", OR({Status}="Confirmed", AND({Status}="Deposit Pending", IS_AFTER(CREATED_TIME(), DATEADD(NOW(), -45, 'minutes')))))`
+      // "Deposit Pending" only holds headsets for 45 min — an abandoned Stripe checkout must not block the date
     );
 
     const atRes = await fetch(

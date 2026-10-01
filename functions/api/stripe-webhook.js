@@ -108,6 +108,7 @@ export async function onRequestPost(context) {
           mobile,
           amountPaid,
           sessionId: session.id,
+          packagePrice,
         });
       }
     }
@@ -120,9 +121,10 @@ export async function onRequestPost(context) {
   }
 }
 
-async function sendConfirmationEmails({ resendApiKey, customerEmail, customerName, eventDate, headsetQty, suburb, mobile, amountPaid, sessionId }) {
-  const fromEmail = 'booking@shushpartyhire.com.au';
-  const toddEmail = 'Todd.vberkel@gmail.com';
+async function sendConfirmationEmails({ resendApiKey, customerEmail, customerName, eventDate, headsetQty, suburb, mobile, amountPaid, sessionId, packagePrice }) {
+  const balanceDue = Math.max(0, (parseFloat(packagePrice) || 0) - parseFloat(amountPaid)).toFixed(2);
+  const fromEmail = 'info@shushpartyhire.com.au';
+  const toddEmail = 'info@shushpartyhire.com.au';   // every new booking lands in the shared inbox
 
   const formattedDate = eventDate
     ? new Date(eventDate).toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
@@ -147,10 +149,11 @@ async function sendConfirmationEmails({ resendApiKey, customerEmail, customerNam
         <tr><td style="padding:6px 0;color:#6b7280;font-size:14px">Headsets</td><td style="padding:6px 0;text-align:right;font-weight:600;color:#111827">${headsetQty || 'As quoted'}</td></tr>
         <tr><td style="padding:6px 0;color:#6b7280;font-size:14px">Location</td><td style="padding:6px 0;text-align:right;font-weight:600;color:#111827">${suburb || 'As discussed'}</td></tr>
         <tr style="border-top:1px solid #e5e7eb"><td style="padding:12px 0 6px;color:#6b7280;font-size:14px;font-weight:600">Deposit Paid</td><td style="padding:12px 0 6px;text-align:right;font-weight:700;color:#059669;font-size:16px">$${amountPaid} AUD</td></tr>
+        <tr><td style="padding:6px 0;color:#6b7280;font-size:14px">Balance due before event</td><td style="padding:6px 0;text-align:right;font-weight:600;color:#111827">$${balanceDue} AUD</td></tr>
       </table>
     </div>
-    <p style="margin:0 0 16px;color:#374151;font-size:15px">Todd will be in touch shortly to confirm delivery times and any final details.</p>
-    <p style="margin:0;color:#6b7280;font-size:14px">Questions? Reply to this email or call <a href="tel:0400050176" style="color:#7c3aed">0400 050 176</a></p>
+    <p style="margin:0 0 16px;color:#374151;font-size:15px">Pickup or delivery timing will be confirmed by email before your event. Your setup guide (video + written) is sent ahead of the night.</p>
+    <p style="margin:0;color:#6b7280;font-size:14px">Questions? Just reply to this email — <a href="mailto:info@shushpartyhire.com.au" style="color:#7c3aed">info@shushpartyhire.com.au</a></p>
   </div>
   <p style="text-align:center;color:#9ca3af;font-size:12px;margin-top:24px">
     Shush Party Hire · Geelong &amp; Bellarine Peninsula, VIC<br>
@@ -163,6 +166,7 @@ async function sendConfirmationEmails({ resendApiKey, customerEmail, customerNam
   // Todd notification email
   const toddHtml = `<div style="font-family:sans-serif;max-width:500px">
 <h2>New Booking Deposit Received</h2>
+<p>Reply to this email to contact the customer directly.</p>
 <table>
   <tr><td><b>Name:</b></td><td>${customerName}</td></tr>
   <tr><td><b>Email:</b></td><td>${customerEmail}</td></tr>
@@ -171,6 +175,7 @@ async function sendConfirmationEmails({ resendApiKey, customerEmail, customerNam
   <tr><td><b>Headsets:</b></td><td>${headsetQty}</td></tr>
   <tr><td><b>Suburb:</b></td><td>${suburb}</td></tr>
   <tr><td><b>Deposit Paid:</b></td><td>$${amountPaid} AUD</td></tr>
+  <tr><td><b>Balance Due:</b></td><td>$${balanceDue} AUD (before the event)</td></tr>
   <tr><td><b>Stripe Session:</b></td><td>${sessionId}</td></tr>
 </table>
 </div>`;
@@ -181,7 +186,8 @@ async function sendConfirmationEmails({ resendApiKey, customerEmail, customerNam
       method: 'POST',
       headers: { 'Authorization': `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'Shush Party Hire <booking@shushpartyhire.com.au>',
+        from: `Shush Party Hire <${fromEmail}>`,
+        reply_to: 'info@shushpartyhire.com.au',
         to: [customerEmail],
         subject: `Booking Confirmed — ${formattedDate} | Shush Party Hire`,
         html: customerHtml,
@@ -193,7 +199,8 @@ async function sendConfirmationEmails({ resendApiKey, customerEmail, customerNam
       method: 'POST',
       headers: { 'Authorization': `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'Shush Bookings <booking@shushpartyhire.com.au>',
+        from: `Shush Bookings <${fromEmail}>`,
+        reply_to: customerEmail,
         to: [toddEmail],
         subject: `New Booking: ${customerName} — ${formattedDate}`,
         html: toddHtml,

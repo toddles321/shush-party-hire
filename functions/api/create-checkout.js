@@ -15,7 +15,6 @@ export async function onRequestPost(context) {
     const qty      = parseInt(body.headsetQty) || 0;
     const duration = body.duration || '1';
     const delivery = parseInt(body.delivery) || 0;
-    const ipod     = parseInt(body.iPodOption) || 0;
     const date     = body.eventDate || '';
 
     if (!qty || qty < 10 || qty > 400) {
@@ -33,7 +32,8 @@ export async function onRequestPost(context) {
     // ── Re-verify availability server-side ──────────────────────────────────────
     // (client check is UX only — server is the source of truth)
     const filterFormula = encodeURIComponent(
-      `AND({Event Date}="${date}", OR({Status}="Confirmed", {Status}="Deposit Pending"))`
+      `AND({Event Date}="${date}", OR({Status}="Confirmed", AND({Status}="Deposit Pending", IS_AFTER(CREATED_TIME(), DATEADD(NOW(), -45, 'minutes')))))`
+      // "Deposit Pending" only holds headsets for 45 min — an abandoned Stripe checkout must not block the date
     );
     const atCheck = await fetch(
       `https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${encodeURIComponent(env.AIRTABLE_TABLE_NAME)}?filterByFormula=${filterFormula}&fields[]=Headset Quantity`,
@@ -58,13 +58,11 @@ export async function onRequestPost(context) {
     const prices = {10:99,20:179,30:229,40:269,50:319,75:439,100:549,150:769,200:999,300:1449,400:1899};
     const mults  = {'1':1,'2':1.5,'7':2};
     const base   = Math.round((prices[qty] || 319) * (mults[duration] || 1));
-    const validIpod = [0,19,35,49].includes(ipod) ? ipod : 0;
-    const total  = base + (delivery === 40 ? 40 : 0) + validIpod;
+    const total  = base + (delivery === 40 ? 40 : 0);
     const deposit = 150;
 
     // ── Save pending booking to Airtable ────────────────────────────────────────
     const durLabels = {'1':'1 Night','2':'2–3 Nights','7':'1 Week'};
-    const ipodLabels = {0:'None',19:'1 iPod',35:'2 iPods',49:'3 iPods'};
 
     const atCreate = await fetch(
       `https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}/${encodeURIComponent(env.AIRTABLE_TABLE_NAME)}`,
@@ -80,7 +78,6 @@ export async function onRequestPost(context) {
             'Headset Quantity': qty,
             'Duration': durLabels[duration] || duration,
             'Delivery': delivery === 40 ? 'Delivery $40' : 'Free Pickup',
-            'iPod Option': ipodLabels[ipod] || 'None',
             'Package Price': total,
             'Deposit Paid': false,
             'Status': 'Deposit Pending',
@@ -100,8 +97,7 @@ export async function onRequestPost(context) {
     // ── Build duration label for Stripe ────────────────────────────────────────
     const durLabel = durLabels[duration] || '1 Night';
     const delLabel = delivery === 40 ? ' · Delivery $40' : ' · Free Pickup';
-    const ipodLabel = ipod > 0 ? ` · ${ipodLabels[ipod] || ''} (+$${ipod})` : '';
-    const description = `${qty} headsets · ${durLabel}${delLabel}${ipodLabel} — Balance of $${total - deposit} due before event`;
+    const description = `${qty} headsets · ${durLabel}${delLabel} — Balance of $${total - deposit} due before event`;
 
     // ── Create Stripe Checkout session ──────────────────────────────────────────
     const stripeParams = new URLSearchParams({
@@ -125,7 +121,7 @@ export async function onRequestPost(context) {
       'custom_fields[1][type]': 'text',
       'custom_fields[2][key]': 'notes',
       'custom_fields[2][label][type]': 'custom',
-      'custom_fields[2][label][custom]': 'Any notes for Todd',
+      'custom_fields[2][label][custom]': 'Anything we should know?',
       'custom_fields[2][type]': 'text',
       'custom_fields[2][optional]': 'true',
       'phone_number_collection[enabled]': 'false',
@@ -134,7 +130,6 @@ export async function onRequestPost(context) {
       'metadata[headset_qty]': String(qty),
       'metadata[duration]': duration,
       'metadata[delivery]': String(delivery),
-      'metadata[ipod]': String(ipod),
       'metadata[total_price]': String(total),
     });
 
@@ -151,7 +146,7 @@ export async function onRequestPost(context) {
 
     if (!stripeRes.ok || !stripeData.url) {
       console.error('Stripe error:', JSON.stringify(stripeData));
-      return new Response(JSON.stringify({ error: 'Payment setup failed. Please call Todd on 0400 050 176.' }), {
+      return new Response(JSON.stringify({ error: 'Payment setup failed. Please try again, or email info@shushpartyhire.com.au and we will book it manually.' }), {
         status: 500, headers: corsHeaders,
       });
     }
@@ -162,7 +157,7 @@ export async function onRequestPost(context) {
 
   } catch (err) {
     console.error('create-checkout error:', err);
-    return new Response(JSON.stringify({ error: 'Something went wrong. Please call Todd on 0400 050 176.' }), {
+    return new Response(JSON.stringify({ error: 'Something went wrong. Please try again, or email info@shushpartyhire.com.au.' }), {
       status: 500, headers: corsHeaders,
     });
   }
